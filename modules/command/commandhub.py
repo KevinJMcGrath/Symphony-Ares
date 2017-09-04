@@ -1,5 +1,6 @@
 import importlib
 
+import modules.botconfig as config
 import modules.plugins.commandloader as cmdloader
 import modules.command.commandqueue as queue
 from modules.symphony.tokenizer import CommandTypes
@@ -48,7 +49,7 @@ def RunSlashCommand(messageDetail):
                 func = getattr(mod, command.Function)
 
                 # Allow for some commands to be processed immediately
-                if command.IsImmediate:
+                if command.IsImmediate or not config.UseRedisQueues:
                     func(messageDetail)
                 else:
                     queue.AsyncCommand(func, messageDetail)

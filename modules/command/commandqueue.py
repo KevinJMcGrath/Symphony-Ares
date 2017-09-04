@@ -1,7 +1,9 @@
 from redis import Redis
 from rq import Queue
 
-redis_conn = Redis(host='localhost', port=6379, password='suzumebachi')
+import modules.botconfig as config
+
+redis_conn = Redis(host=config.RedisHost, port=config.RedisPort, password=config.RedisPassword)
 
 commandQueue = Queue('default', connection=redis_conn)
 

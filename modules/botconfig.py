@@ -30,6 +30,11 @@ PluginPath = os.path.abspath(_config['pluginPath'])
 
 DefaultCommandDefinitionPath = os.path.abspath(_config['defaultCommandDefinitionPath'])
 
+UseRedisQueues = _config['redis']['active']
+RedisHost = _config['redis']['host']
+RedisPort = _config['redis']['port']
+RedisPassword = _config['redis']['password']
+
 
 def GetCommandSetting(name):
     _settings = _config['defaultCommandSettings']
