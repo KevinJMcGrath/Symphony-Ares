@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cb557f59-2430-4053-b476-b228027a8465" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/botconfig.py" afterPath="$PROJECT_DIR$/modules/botconfig.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/command/commandhub.py" afterPath="$PROJECT_DIR$/modules/command/commandhub.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/command/commandqueue.py" afterPath="$PROJECT_DIR$/modules/command/commandqueue.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -53,14 +49,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="commandqueue.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="commandqueue.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/command/commandqueue.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+            <state relative-caret-position="270">
+              <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="715">
+              <caret line="141" column="70" lean-forward="true" selection-start-line="141" selection-start-column="70" selection-end-line="141" selection-end-column="70" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -149,6 +155,7 @@
         <option value="$PROJECT_DIR$/modules/botconfig.py" />
         <option value="$PROJECT_DIR$/modules/command/commandqueue.py" />
         <option value="$PROJECT_DIR$/modules/command/commandhub.py" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -384,7 +391,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/modules/command/intercom.py" />
     <entry file="file://$PROJECT_DIR$/modules/symphony/datafeed.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
@@ -767,11 +773,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/command/commandqueue.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        <state relative-caret-position="270">
+          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="715">
+          <caret line="141" column="70" lean-forward="true" selection-start-line="141" selection-start-column="70" selection-end-line="141" selection-end-column="70" />
+          <folding />
         </state>
       </provider>
     </entry>

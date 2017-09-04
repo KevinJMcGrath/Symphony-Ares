@@ -132,7 +132,7 @@ Any additional files required for processing your command are ignored by the plu
 
 
 
-##TODO
+## TODO
 
 * Provide documentation on how to process the incoming message and send a response
 * Add Redis config info to root config.json
