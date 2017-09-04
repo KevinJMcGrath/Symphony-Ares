@@ -135,7 +135,7 @@ Any additional files required for processing your command are ignored by the plu
 ## TODO
 
 * Provide documentation on how to process the incoming message and send a response
-* Add Redis config info to root config.json
+* ~~Add Redis config info to root config.json~~
 * Add additional functionality to JIRA and Salesforce plugins
 * Add monitoring/alerting tool for keeping tabs on the bot state
 * Add default command to report status of jobs in Redis queues

@@ -9,6 +9,6 @@ of the files are specified in config.json:
     "certificateFilePath": "bot.crt.pem",
     "certificateKeyfilePath": "bot.key.pem",
     "certificatePassword": ""
-  },`
+  },`  
 
 A future enhancement will allow for more flexibility in how the certs can be configured.
