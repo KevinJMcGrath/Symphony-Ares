@@ -5,6 +5,9 @@
 config.json
 default.json
 
+# Pycharm files (I think)
+.idea/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
