@@ -1,0 +1,23 @@
+{
+  "commands": [
+    {
+      "triggers": ["acct"],
+      "function": "AccountSearch",
+      "description": "Look up Salesforce Account by name. ",
+      "helptext": "Usage: /acct [name](required)"
+    },
+    {
+      "triggers": ["sfdcver"],
+      "function": "SFDCVersion",
+      "description": "Return the current API version of your Salesforce org.",
+      "helptext": "Usage: /sfdcver"
+    }
+  ],
+  "sfdcHost": "https://company.my.salesforce.com",
+  "sfdcUsername": "username@company.com",
+  "sfdcPassword": "password",
+  "sfdcUserAuthToken": "UsErAuThToKeN",
+  "client_id": "",
+  "client_secret": ""
+
+}

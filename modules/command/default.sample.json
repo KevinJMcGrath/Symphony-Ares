@@ -1,0 +1,56 @@
+{
+  "commands": [
+    {
+      "name": "echo",
+      "triggers": ["echo"],
+      "function": "SendSymphonyEcho",
+      "helptext": "Usage: /echo Text you wish to repeat.",
+      "description": "Repeats whatever chat data is sent to the bot. Useful for testing the bot connection.",
+      "immediate": true
+    },
+    {
+      "name": "translate",
+      "triggers": ["trans", "translate"],
+      "function": "GetGoogleTranslation",
+      "helptext": "/translate [search](required)",
+      "description": "Uses Google Translate to translate the search word or phrase."
+    },
+    {
+      "name": "quote",
+      "triggers": ["quote", "$", "qt"],
+      "function": "GetAlphaVantageStockQuote",
+      "helptext": "/quote [tickerSymbol](required)",
+      "description": "Pulls the most recent open and close prices for the specified ticker symbol from Alpha Vantage."
+    },
+    {
+      "name": "spam",
+      "triggers": ["spam"],
+      "function": "SendSymphonySpam",
+      "helptext": "/spam [count](optional; default: 5]",
+      "description": "Sends test messages to the room in which it is called. "
+    },
+    {
+      "name": "gif",
+      "triggers": ["gif", "giphy" ],
+      "function": "GetGiphyImage",
+      "helptext": "/gif [searchText](optional; default: blank",
+      "description": "Summons a GIF from the OtherLands for your amusement. If search text is blank this command will return a random GIF."
+    },
+    {
+      "name": "feedbackhelp",
+      "triggers": ["feedbackhelp", "feedback", "fbhelp" ],
+      "function": "SendUserFeedbackHelp",
+      "helptext": "Usage: /feedbackhelp",
+      "description": "Helpception - this command displays the help message for client feedback submissions."
+    }
+  ],
+  "hashcommands": [
+    {
+      "name": "clientFeedback",
+      "triggers": [ "bug","bugs","defect","defects","problem","problems","feature","features", "newfeaturerequest",
+        "featurerequest","feature_request","newfeature","new_feature","missing","needed","required",
+        "usability","useability","performance","unstable","awkward","feedback" ],
+      "function": "SubmitUserFeedback"
+    }
+  ]
+}

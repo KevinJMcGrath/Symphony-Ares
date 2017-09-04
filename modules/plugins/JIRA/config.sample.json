@@ -1,0 +1,29 @@
+{
+  "commands": [
+    {
+      "triggers": ["createjira", "crjira", "jira"],
+      "function": "CreateNewJIRA",
+      "description": "Function to create new JIRAs",
+      "helptext": "blah blah blah"
+    },
+    {
+      "triggers": ["bizops", "bo"],
+      "function": "CreateBizOpsJIRAIssue",
+      "description": "Creates a new JIRA Issue for the Business Operations team.",
+      "helptext": "Usage: /bizops [summary](required)"
+    }
+  ],
+  "jiraHost": "https://company.atlassian.net",
+  "jiraUsername": "my.username",
+  "jiraPassword": "password",
+  "validProjects": [
+    "BIZOPS",
+    "SA"
+  ],
+  "paramOrder": [
+    "project",
+    "issuetype",
+    "priority"
+  ]
+
+}
