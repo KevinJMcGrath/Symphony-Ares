@@ -12,6 +12,12 @@
     "apiHost": "https://company.symphony.com",
     "apiPort": "443"
   },
+    "redis": {
+    "active": true,
+    "host": "127.0.0.1",
+    "port": 6379,
+    "password": "redispwd"
+  },
   "loggingPath": "./logging",
   "defaultCommandSettings": [
     {
