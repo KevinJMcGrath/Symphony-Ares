@@ -1,3 +1,5 @@
+import traceback
+
 import modules.botconfig as config
 import modules.botlog as botlog
 import modules.symphony.callout as callout
@@ -23,15 +25,25 @@ def PollDataFeed(datafeedId):
     messageItems = []
     if response.Success:
         for respItem in response.ResponseData:
-            detail = msg.MessageDetail(respItem)
-            detail.Sender = user.GetSymphonyUserDetail(detail.FromUserId)
-            detail.ChatRoom = stream.GetStreamInfo(respItem.streamId)
-            botlog.LogSymphonyInfo(detail.GetConsoleLogLine())
+            # Hopefully this will
+            try:
+                detail = msg.MessageDetail(respItem)
+                detail.Sender = user.GetSymphonyUserDetail(detail.FromUserId)
+                detail.ChatRoom = stream.GetStreamInfo(respItem.streamId)
+                botlog.LogSymphonyInfo(detail.GetConsoleLogLine())
 
-            if detail.Sender and detail.Sender.IsValidSender:
-                detail.InitiateCommandParsing()
+                if detail.Sender and detail.Sender.IsValidSender:
+                    detail.InitiateCommandParsing()
 
-            messageItems.append(detail)
+                messageItems.append(detail)
+
+            except SystemExit:
+                botlog.LogConsoleInfo('Exiting Ares.')
+            except Exception as ex:
+                errorStr = "Symphony REST Exception (system): " + str(ex)
+                stackTrace = 'Stack Trace: ' + ''.join(traceback.format_stack())
+                botlog.LogSystemError(errorStr)
+                botlog.LogSystemError(stackTrace)
 
     return messageItems
 
