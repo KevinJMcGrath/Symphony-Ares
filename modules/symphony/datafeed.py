@@ -24,7 +24,7 @@ def PollDataFeed(datafeedId):
     if response.Success:
         for respItem in response.ResponseData:
             detail = msg.MessageDetail(respItem)
-            detail.Sender = user.GetSymphonyUserDetail(respItem.fromUserId)
+            detail.Sender = user.GetSymphonyUserDetail(detail.FromUserId)
             detail.ChatRoom = stream.GetStreamInfo(respItem.streamId)
             botlog.LogSymphonyInfo(detail.GetConsoleLogLine())
 
