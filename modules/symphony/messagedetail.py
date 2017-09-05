@@ -17,8 +17,8 @@ class MessageDetail:
         self.StreamId = msg.FormatSymphonyId(respItem.streamId)
         # Some of the message types (like room additions) have no message
         self.MessageRaw = respItem.message if hasattr(respItem, 'message') else None
-        self.Type = respItem.v2messageType
-        self.Attachments = respItem.attachments
+        self.Type = respItem.v2messageType if hasattr(respItem, 'v2messageType') else ''
+        self.Attachments = respItem.attachments if hasattr(respItem, 'attachments') else []
         self.IsValid = self.Type == 'V2Message'
         self.Sender = None
         self.ChatRoom = None
