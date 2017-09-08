@@ -12,7 +12,7 @@ def GetHash(inputStr):
     hashBytes = newHash.finalize()
 
 
-    return newHash.hex()
+    return hashBytes.hex()
 
 
 def CompareHashDigest(cleartext, compareToHash):

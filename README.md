@@ -11,9 +11,11 @@ The bot was built using Pycharm on Ubuntu 17.04 and runs against Python 3.5, tho
 
 * Python 3.5 
 
+    * requests - http://docs.python-requests.org/en/master/
     * lxml - http://lxml.de/
     * ~~PyCrypto - https://www.dlitz.net/software/pycrypto/~~
     * cryptography.io - https://cryptography.io/en/latest/
+    * Redis - https://pypi.python.org/pypi/redis
     * RQ - http://python-rq.org/
 
 * Redis 2.6.0 or better

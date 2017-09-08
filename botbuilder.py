@@ -15,10 +15,6 @@ class SymSession:
         self.KeyAuthToken = ''
         self.DataFeedId = ''
         self.BotUserId = ''
-        self._reauthIndex = 0
-        self._reauthMax = 3
-        self._errIndex = 0
-        self._errMax = 5
 
         self.SessionExpirationDate = datetime.date.today() - datetime.timedelta(days=1)
         self.RESTHeaders = {}
@@ -32,71 +28,81 @@ class SymSession:
         self.SessionToken = ''
         self.KeyAuthToken = ''
         self.DataFeedId = ''
-        self._errIndex = 0
-        self._reauthIndex = 0
 
     def Authenticate(self):
 
         botlog.LogConsoleInfo('Authenticating...')
+        self.SessionToken = callout.GetSessionToken()
 
-        while not self.IsAuthenticated:
+        if self.SessionToken != '':
+            botlog.LogConsoleInfo('Success! Session token obtained.')
 
-            self.SessionToken = callout.GetSessionToken()
-            if self.SessionToken != '':
-                botlog.LogConsoleInfo('Success! Session token obtained.')
+            self.KeyAuthToken = callout.GetKeyManagerToken()
 
-                self.KeyAuthToken = callout.GetKeyManagerToken()
+            if self.KeyAuthToken != '':
+                botlog.LogConsoleInfo('Success! Key Manager token obtained.')
 
-                if self.KeyAuthToken != '':
-                    botlog.LogConsoleInfo('Success! Key Manager token obtained.')
+                self.SessionExpirationDate = datetime.date.today() + datetime.timedelta(days=7)
+                self.RESTHeaders = {"sessionToken": self.SessionToken, "keyManagerToken": self.KeyAuthToken,
+                                    "Content-Type": "application/json"}
 
-                    self.SessionExpirationDate = datetime.date.today() + datetime.timedelta(days=7)
-                    self.RESTHeaders = {"sessionToken": self.SessionToken, "keyManagerToken": self.KeyAuthToken,
-                                        "Content-Type": "application/json"}
+                # Attempting to use requests.Session
+                callout.agentSession.headers.update(self.RESTHeaders)
 
-                    # Attempting to use requests.Session
-                    callout.agentSession.headers.update(self.RESTHeaders)
+                botlog.LogConsoleInfo('Session expires on ' + str(self.SessionExpirationDate))
 
-                    botlog.LogConsoleInfo('Session expires on ' + str(self.SessionExpirationDate))
-
-                    self.IsAuthenticated = True
-                    self._reauthIndex = 0
-
-            if not self.IsAuthenticated:
-                if self._reauthIndex < self._reauthMax:
-                    self._reauthIndex += 1
-                    botlog.LogSymphonyError('Authentication failed. Attempting re-authentication in 5s (' +
-                                            str(self._reauthIndex) + ' of ' + str(self._reauthMax) + ')')
-                    time.sleep(5)
-                else:
-                    botlog.LogSymphonyError('Authentication failed after max retries. Halting bot.')
-                    exit(1)
+                self.IsAuthenticated = True
+            else:
+                botlog.LogSystemError("Failed to obtain KM Token")
+        else:
+            botlog.LogSystemError("Failed to obtain Session Token")
 
     def ConnectDatafeed(self):
+        self.BotUserId = user.GetBotUserId()
+        botlog.LogConsoleInfo('Bot User Id: ' + str(self.BotUserId))
 
-        while not self.IsDatafeedConnected:
-            self.BotUserId = user.GetBotUserId()
-            botlog.LogConsoleInfo('Bot User Id: ' + str(self.BotUserId))
+        botlog.LogConsoleInfo('Creating Datafeed...')
+        self.DataFeedId = datafeed.CreateDataFeed()
 
-            botlog.LogConsoleInfo('Creating Datafeed...')
-            self.DataFeedId = datafeed.CreateDataFeed()
-
-            if self.DataFeedId != '':
-                botlog.LogConsoleInfo('Datafeed Connected! Id: ' + self.DataFeedId)
-                self.IsDatafeedConnected = True
-                self._errIndex = 0
-            elif self._errIndex < self._errMax:
-                self._errIndex += 1
-                botlog.LogSymphonyError('Unable to connect to Datafeed. retrying in 5s (' +
-                                        str(self._errIndex) + ' of ' + str(self._errMax) + ')')
-                time.sleep(5)
-            else:
-                botlog.LogSymphonyError('Failed to connecto to Datafeed. Invalidating session.')
-                self.InvalidateSession()
+        if self.DataFeedId != '':
+            botlog.LogConsoleInfo('Datafeed Connected! Id: ' + self.DataFeedId)
+            self.IsDatafeedConnected = True
+        else:
+            botlog.LogSymphonyError('Failed to connect to Datafeed.')
 
     def StartBot(self):
 
-        self.Authenticate()
-        self.ConnectDatafeed()
+        self.LimitedAuth()
+        if self.IsAuthenticated:
+            self.LimitedDatafeedConnect()
 
+            if self.IsDatafeedConnected:
+                return True
 
+        return False
+
+    def LimitedAuth(self):
+        for index in range(0, 5):
+            self.Authenticate()
+
+            if self.IsAuthenticated:
+                return
+            else:
+                botlog.LogSymphonyError('Authentication attmept ' + str(index) + 'failed. Trying again in 5 seconds.')
+                time.sleep(5)
+
+        botlog.LogSymphonyError('Maximum authentication attempts reached. Halting bot.')
+        exit(1)
+
+    def LimitedDatafeedConnect(self):
+        for index in range(0, 5):
+            self.ConnectDatafeed()
+
+            if self.IsDatafeedConnected:
+                return
+            else:
+                botlog.LogSymphonyError('Datafeed Connect attmpt ' +  str(index) + 'failed. Trying again in 5 seconds.')
+                time.sleep(5)
+
+        botlog.LogSymphonyError('Maximum datafeed connection attempts reached. Halting bot.')
+        exit(1)
