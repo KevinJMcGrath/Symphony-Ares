@@ -44,6 +44,8 @@ def PollDataFeed(datafeedId):
                 stackTrace = 'Stack Trace: ' + ''.join(traceback.format_stack())
                 botlog.LogSystemError(errorStr)
                 botlog.LogSystemError(stackTrace)
+    elif response.ResponseCode == 204:
+        return []
     else:
         # if the response is not successful, return None. This way, I can tell the datafeed call was bad
         # and attempt to reconnect to the server.

@@ -125,7 +125,7 @@ def ConvertAllText(messageTree):
             tail = node.tail.strip()
             retVal.append(tail)
 
-    return " ".join(retVal)
+    return " ".join(retVal).replace('"', r'\"')
 
 
 def TrimEquals(inputStr):

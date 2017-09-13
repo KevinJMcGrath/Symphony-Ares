@@ -52,8 +52,9 @@ def SFDC_REST(method, endpoint, body):
     response = None
 
     try:
-        if sfdcSession is None:
-            AuthenticateSalesforce()
+        # if sfdcSession is None:
+        # I don't want to authenticate every time, but it seems to be failingtoo much
+        AuthenticateSalesforce()
 
         if SFDCReady:
             if method == 'GET':
@@ -82,7 +83,8 @@ def SFDC_REST(method, endpoint, body):
         log.LogSFDCError(stackTrace)
 
     except requests.exceptions.RequestException as connex:
-        errorStr = "SFDC REST Exception (connection): " + str(connex)
+        errorStr = "SFDC REST Exception (connection): " + str(connex) + ' Code: '
+        errorStr += str(response.status_code) if response and response.status_code else 'Unknown'
         stackTrace = 'Stack Trace: ' + ''.join(traceback.format_stack())
         log.LogSFDCError(errorStr)
         log.LogSFDCError(stackTrace)

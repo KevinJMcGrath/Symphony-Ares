@@ -10,11 +10,11 @@ class ResponseType:
 
 class MessageDetail:
     def __init__(self, respItem):
-        self.MessageId = msg.FormatSymphonyId(respItem.id)
+        self.MessageId = msg.FormatSymphonyId(respItem.id) if hasattr(respItem, 'id') else '-1'
         # I REALLY don't like the idea of EAFP. Sometimes it's just better to check things first
         # instead of just throwing an exception like a big 'ol tantrum.
         self.FromUserId = str(respItem.fromUserId) if hasattr(respItem, 'fromUserId') else '-1'
-        self.StreamId = msg.FormatSymphonyId(respItem.streamId)
+        self.StreamId = msg.FormatSymphonyId(respItem.streamId) if hasattr(respItem, 'streamId') else '-1'
         # Some of the message types (like room additions) have no message
         self.MessageRaw = respItem.message if hasattr(respItem, 'message') else None
         self.Type = respItem.v2messageType if hasattr(respItem, 'v2messageType') else ''

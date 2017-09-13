@@ -69,7 +69,7 @@ def SymphonyREST(method, endpoint, body):
             retVal.Success = True
             retVal.ParseResponseJSON()
         elif response.status_code // 100 == 2:  # Any other 200 code, not success but don't throw exception
-            retVal.Success = False
+            retVal.Success = True
         else:
             response.raise_for_status()
 

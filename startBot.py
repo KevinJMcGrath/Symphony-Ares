@@ -18,6 +18,11 @@ while loopControl:
     messages = datafeed.PollDataFeed(botSession.DataFeedId)
 
     if messages is not None:
+
+        if len(messages) == 0:
+            # botlog.LogConsoleInfo('204 - No Content')
+            pass
+
         for msg in messages:
             if msg.IsValid and msg.Sender.IsValidSender:
                 hub.ProcessCommand(msg)
