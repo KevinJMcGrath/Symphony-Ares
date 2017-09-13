@@ -27,15 +27,20 @@ def PollDataFeed(datafeedId):
         for respItem in response.ResponseData:
             # Hopefully this will
             try:
-                detail = msg.MessageDetail(respItem)
-                detail.Sender = user.GetSymphonyUserDetail(detail.FromUserId)
-                detail.ChatRoom = stream.GetStreamInfo(respItem.streamId)
-                botlog.LogSymphonyInfo(detail.GetConsoleLogLine())
+                if respItem.v2messageType and respItem.v2messageType == 'V2Message':
+                    detail = msg.MessageDetail(respItem)
+                    detail.Sender = user.GetSymphonyUserDetail(detail.FromUserId)
+                    detail.ChatRoom = stream.GetStreamInfo(respItem.streamId)
+                    botlog.LogSymphonyInfo(detail.GetConsoleLogLine())
 
-                if detail.Sender and detail.Sender.IsValidSender:
-                    detail.InitiateCommandParsing()
+                    if detail.Sender and detail.Sender.IsValidSender:
+                        detail.InitiateCommandParsing()
 
-                messageItems.append(detail)
+                    messageItems.append(detail)
+                elif respItem.v2messageType != 'V2Message':
+                    botlog.LogConsoleInfo('Non-chat Message Type: ' + respItem.v2messageType)
+                else:
+                    botlog.LogConsoleInfo('Non-chat Message Type: unknown')
 
             except SystemExit:
                 botlog.LogConsoleInfo('Exiting Ares.')
@@ -44,6 +49,8 @@ def PollDataFeed(datafeedId):
                 stackTrace = 'Stack Trace: ' + ''.join(traceback.format_stack())
                 botlog.LogSystemError(errorStr)
                 botlog.LogSystemError(stackTrace)
+                botlog.LogConsoleInfo(response.ResponseText)
+
     elif response.ResponseCode == 204:
         return []
     else:
