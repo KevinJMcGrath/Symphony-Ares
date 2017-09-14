@@ -120,11 +120,13 @@ def ConvertAllText(messageTree):
         else:
             if node.text:
                 st = node.text.strip()
-                retVal.append(st)
+                if st:
+                    retVal.append(st)
 
         if node.tail:
             tail = node.tail.strip()
-            retVal.append(tail)
+            if tail:
+                retVal.append(tail)
 
     return " ".join(retVal).replace('"', r'\"')
 
