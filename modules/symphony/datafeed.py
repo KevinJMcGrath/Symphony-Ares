@@ -1,4 +1,5 @@
 import traceback
+import sys
 
 import modules.botconfig as config
 import modules.botlog as botlog
@@ -46,7 +47,9 @@ def PollDataFeed(datafeedId):
                 botlog.LogConsoleInfo('Exiting Ares.')
             except Exception as ex:
                 errorStr = "Symphony REST Exception (system): " + str(ex)
-                stackTrace = 'Stack Trace: ' + ''.join(traceback.format_stack())
+                # stackTrace = 'Stack Trace: ' + ''.join(traceback.format_stack())
+                exInfo = sys.exc_info()
+                stackTrace = 'Stack Trace: ' + ''.join(traceback.format_exception(exInfo[0], exInfo[1], exInfo[2]))
                 botlog.LogSystemError(errorStr)
                 botlog.LogSystemError(stackTrace)
                 botlog.LogConsoleInfo(response.ResponseText)
