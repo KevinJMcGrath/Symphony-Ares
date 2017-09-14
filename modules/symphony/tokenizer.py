@@ -115,7 +115,8 @@ def ConvertAllText(messageTree):
         elif node.tag == 'ul':
             retVal.append('\\n')
         elif node.tag == 'li':
-            retVal.append('* ' + node.text.strip() + '\\n')
+            if node.text:
+                retVal.append('* ' + node.text.strip() + '\\n')
         else:
             if node.text:
                 st = node.text.strip()
