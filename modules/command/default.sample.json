@@ -1,6 +1,14 @@
 {
   "commands": [
     {
+      "name": "status",
+      "triggers": ["status", "poke", "check"],
+      "function": "SendStatusCheck",
+      "helptext": "Usage: /status",
+      "description": "Returns the status of Ares. This command bypasses the Command Queue.",
+      "immediate": true
+    },
+    {
       "name": "echo",
       "triggers": ["echo"],
       "function": "SendSymphonyEcho",
