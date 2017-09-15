@@ -11,6 +11,11 @@ def SendSymphonyEcho(messageDetail):
     messaging.SendSymphonyMessage(messageDetail.StreamId, msg)
 
 
+def LogSymphonyMessageDebug(messageDetail):
+    botlog.LogSymphonyInfo('Message for Debugging: ' + repr(messageDetail.MessageRaw))
+    messageDetail.ReplyToChat('Thank you for helping improve my code!')
+
+
 def GetGoogleTranslation(messageDetail):
     transText = messageDetail.Command.MessageText
 

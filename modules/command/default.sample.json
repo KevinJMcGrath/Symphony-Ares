@@ -1,6 +1,14 @@
 {
   "commands": [
     {
+      "name": "dbm",
+      "triggers": ["dbm"],
+      "function": "LogSymphonyMessageDebug",
+      "helptext": "Usage: /dbm [Message content you wish to log for debugging]",
+      "description": "Logs the <b>decrypted</b> content of the message for troubleshooting. This command bypasses the Command Queue.",
+      "immediate": true
+    },
+    {
       "name": "status",
       "triggers": ["status", "poke", "check"],
       "function": "SendStatusCheck",
