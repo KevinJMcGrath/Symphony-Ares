@@ -140,7 +140,11 @@ def SendStatusCheck(messageDetail):
     import random
 
     replies = ["I'm up! I'm up!", "Five by Five.", "Ready to serve.", "Where do you want to go today?", "Listening...",
-               "<a href='https://www.youtube.com/watch?v=hUw13iIrKN0&amp;t=10s'/>"]
+               "<a href='https://www.youtube.com/watch?v=hUw13iIrKN0&amp;t=10s'/>", "Who's asking?",
+               "Can I <i>help</i> you?", "Who disturbs my slumber?!", "Eat your heart out, Siri.",
+               "I hear Alexa was written in... <i>QBasic</i>",
+               "I didn't really care for the new <i>Wonder Woman</i> movie.", "More work?", "Ready for action.",
+               "The flows of magic are whimsical today."]
 
     randReply = True
 
