@@ -130,3 +130,24 @@ def RemoteShutdown(messageDetail):
     else:
         messageDetail.ReplyToSender("You must specify a password.")
 
+
+def SendStatusCheck(messageDetail):
+    import random
+
+    replies = ["I'm up! I'm up!", "Five by Five.", "Ready to serve.", "Where do you want to go today?", "Listening...",
+               "<a href='https://www.youtube.com/watch?v=hUw13iIrKN0&amp;t=10s'/>"]
+
+    randReply = True
+
+    if len(messageDetail.Command.UnnamedParams) > 0:
+        index = messageDetail.Command.UnnamedParams[0]
+
+        if index.isnumeric():
+            indexNum = int(index)
+
+            if indexNum < len(replies):
+                messageDetail.ReplyToChat(replies[indexNum])
+                randReply = False
+
+    if randReply:
+        messageDetail.ReplyToChat(random.choice(replies))

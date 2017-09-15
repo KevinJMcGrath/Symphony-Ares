@@ -81,7 +81,8 @@ def SymphonyREST(method, endpoint, body):
         botlog.LogSymphonyError(stackTrace)
 
     except requests.exceptions.RequestException as connex:
-        errorStr = "Symphony REST Exception (connection): " + str(connex)
+        errorStr = "Symphony REST Exception (connection - Status Code " + str(response.status_code) + \
+                   "): " + str(connex)
         retVal.ErrorMessage = errorStr
         stackTrace = 'Stack Trace: ' + ''.join(traceback.format_stack())
         botlog.LogSymphonyError(errorStr)
