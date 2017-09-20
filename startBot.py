@@ -28,6 +28,7 @@ while loopControl:
                 hub.ProcessCommand(msg)
 
     else:
+        botlog.LogSymphonyInfo('Error detected reading datafeed. Invalidating session...')
         botSession.InvalidateSession()
         loopControl = False
 

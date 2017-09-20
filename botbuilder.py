@@ -35,12 +35,12 @@ class SymSession:
         self.SessionToken = callout.GetSessionToken()
 
         if self.SessionToken != '':
-            botlog.LogConsoleInfo('Success! Session token obtained.')
+            botlog.LogSymphonyInfo('Success! Session token obtained.')
 
             self.KeyAuthToken = callout.GetKeyManagerToken()
 
             if self.KeyAuthToken != '':
-                botlog.LogConsoleInfo('Success! Key Manager token obtained.')
+                botlog.LogSymphonyInfo('Success! Key Manager token obtained.')
 
                 self.SessionExpirationDate = datetime.date.today() + datetime.timedelta(days=7)
                 self.RESTHeaders = {"sessionToken": self.SessionToken, "keyManagerToken": self.KeyAuthToken,
@@ -49,7 +49,7 @@ class SymSession:
                 # Attempting to use requests.Session
                 callout.agentSession.headers.update(self.RESTHeaders)
 
-                botlog.LogConsoleInfo('Session expires on ' + str(self.SessionExpirationDate))
+                botlog.LogSymphonyInfo('Session expires on ' + str(self.SessionExpirationDate))
 
                 self.IsAuthenticated = True
             else:
@@ -59,13 +59,13 @@ class SymSession:
 
     def ConnectDatafeed(self):
         self.BotUserId = user.GetBotUserId()
-        botlog.LogConsoleInfo('Bot User Id: ' + str(self.BotUserId))
+        botlog.LogSymphonyInfo('Bot User Id: ' + str(self.BotUserId))
 
-        botlog.LogConsoleInfo('Creating Datafeed...')
+        botlog.LogSymphonyInfo('Creating Datafeed...')
         self.DataFeedId = datafeed.CreateDataFeed()
 
         if self.DataFeedId != '':
-            botlog.LogConsoleInfo('Datafeed Connected! Id: ' + self.DataFeedId)
+            botlog.LogSymphonyInfo('Datafeed Connected! Id: ' + self.DataFeedId)
             self.IsDatafeedConnected = True
         else:
             botlog.LogSymphonyError('Failed to connect to Datafeed.')
@@ -82,6 +82,7 @@ class SymSession:
         return False
 
     def LimitedAuth(self):
+        botlog.LogSymphonyInfo('Authenticating...')
         for index in range(0, 5):
             self.Authenticate()
 
@@ -95,6 +96,7 @@ class SymSession:
         exit(1)
 
     def LimitedDatafeedConnect(self):
+        botlog.LogSymphonyInfo('Connecting to the Datafeed...')
         for index in range(0, 5):
             self.ConnectDatafeed()
 
