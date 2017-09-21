@@ -31,8 +31,8 @@ def SubmitUserFeedback(messageDetail):
         "submitteremail": messageDetail.Sender.Email,
         "hashtags": messageDetail.Command.Hashtags,
         "mentionedusers": messageDetail.Command.Mentions,
-        "summary": messageDetail.Command.MessageFlattened[:50],
-        "comments": messageDetail.Command.MessageFlattened,
+        "summary": messageDetail.Command.MessageFlattened[:50].replace('"', '\''),
+        "comments": messageDetail.Command.MessageFlattened.replace(r'\"', '\'').replace('"', '\''),
         "companylist": clients
     }
 
