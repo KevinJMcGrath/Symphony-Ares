@@ -19,7 +19,7 @@ class CommandParser:
         self.MessageFlattened = ''
 
         if parseCommand:
-            self.MessageXML = etree.fromstring(messageRaw)
+            self.MessageXML = etree.fromstring(messageRaw.replace('&', '&amp;'))
             self.MessageFlattened = ConvertAllText(self.MessageXML)
 
             self.GetCommand()
