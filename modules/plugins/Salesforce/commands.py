@@ -1,5 +1,7 @@
 import modules.plugins.Salesforce.utility as util
 
+import modules.botlog as log
+
 
 def SFDCVersion(messageDetail):
     ep = util.sfdcBaseURL + '/services/data/'
@@ -38,6 +40,8 @@ def SubmitUserFeedback(messageDetail):
 
     if messageDetail.Attachments:
         sfdcBody['attachments'] = messageDetail.Attachments
+
+    log.LogSymphonyInfo(messageDetail.MessageRaw)
 
     response = util.SFDC_REST('POST', ep, sfdcBody)
 

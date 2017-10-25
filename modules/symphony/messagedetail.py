@@ -3,6 +3,8 @@ from typing import List
 import modules.symphony.messaging as msg
 import modules.symphony.tokenizer as tokenizer
 
+import modules.botlog as log
+
 
 class ResponseType:
     IM, MIM, ROOM = range(3)
@@ -18,11 +20,27 @@ class MessageDetail:
         # Some of the message types (like room additions) have no message
         self.MessageRaw = respItem.message if hasattr(respItem, 'message') else None
         self.Type = respItem.v2messageType if hasattr(respItem, 'v2messageType') else ''
-        self.Attachments = respItem.attachments if hasattr(respItem, 'attachments') else []
+
+        self.Attachments = self.ParseAttachments(respItem)
+        # respItem.attachments if hasattr(respItem, 'attachments') else []
+
         self.IsValid = self.Type == 'V2Message'
         self.Sender = None
         self.ChatRoom = None
         self.Command = None
+
+        if len(self.Attachments) > 0:
+            log.LogConsoleInfo(respItem)
+
+    def ParseAttachments(self, respItem):
+        attachList = []
+
+        if hasattr(respItem, 'attachments'):
+            for att in respItem.attachments:
+                attJ = {"id": att.id, "name": att.name, "size": att.size}
+                attachList.append(attJ)
+
+        return attachList
 
     def InitiateCommandParsing(self):
         if self.MessageRaw is not None:

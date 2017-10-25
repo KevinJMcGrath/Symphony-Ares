@@ -75,6 +75,8 @@ def SymphonyREST(method, endpoint, body):
 
     except requests.exceptions.HTTPError as httpex:
         errorStr = "Symphony REST Exception (http): " + str(httpex)
+        botlog.LogConsoleInfo("Response Code: " + response.status_code)
+        botlog.LogConsoleInfo("Response Message: " + response.text)
         retVal.ErrorMessage = errorStr
         stackTrace = 'Stack Trace: ' + ''.join(traceback.format_stack())
         botlog.LogSymphonyError(errorStr)

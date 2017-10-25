@@ -92,8 +92,10 @@ def SFDC_REST(method, endpoint, body):
     except Exception as ex:
         errorStr = "SFDC REST Exception (system): " + str(ex)
         stackTrace = 'Stack Trace: ' + ''.join(traceback.format_stack())
+
         log.LogSFDCError(errorStr)
         log.LogSFDCError(stackTrace)
+        # log.LogSFDCError('Body: ' + body)
 
     resp = SFDCResponse(response)
     resp.Error = errorStr
