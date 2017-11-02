@@ -57,6 +57,8 @@ def PollDataFeed(datafeedId):
     elif response.ResponseCode == 204:
         return []
     else:
+        botlog.LogConsoleInfo("datafeed.py error - Response Code: " + str(response.ResponseCode))
+        botlog.LogConsoleInfo("Response Message: " + response.ResponseText)
         # if the response is not successful, return None. This way, I can tell the datafeed call was bad
         # and attempt to reconnect to the server.
         return None
