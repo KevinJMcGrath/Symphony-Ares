@@ -1,8 +1,8 @@
 import json
 import re
 
-import modules.botconfig as config
 import modules.symphony.callout as callout
+import modules.botconfig as config
 import modules.botlog as botlog
 
 
@@ -39,4 +39,8 @@ def FormatSymphonyLink(url: str):
 
 def FormatSymphonyId(streamId: str):
     return re.sub("==$", "", streamId.replace("/", "_"))
+
+
+
+
 

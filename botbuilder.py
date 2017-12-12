@@ -15,6 +15,7 @@ class SymSession:
         self.KeyAuthToken = ''
         self.DataFeedId = ''
         self.BotUserId = ''
+        self.DatafeedErrorCount = 0
 
         self.SessionExpirationDate = datetime.date.today() - datetime.timedelta(days=1)
         self.RESTHeaders = {}
@@ -24,10 +25,15 @@ class SymSession:
 
     def InvalidateSession(self):
         self.IsAuthenticated = False
-        self.IsDatafeedConnected = False
         self.SessionToken = ''
         self.KeyAuthToken = ''
-        self.DataFeedId = ''
+
+        if self.DatafeedErrorCount >= 5:
+            self.IsDatafeedConnected = False
+            self.DataFeedId = ''
+            self.DatafeedErrorCount = 0
+        else:
+            self.DatafeedErrorCount += 1
 
     def Authenticate(self):
 
@@ -61,8 +67,16 @@ class SymSession:
         self.BotUserId = user.GetBotUserId()
         botlog.LogSymphonyInfo('Bot User Id: ' + str(self.BotUserId))
 
-        botlog.LogSymphonyInfo('Creating Datafeed...')
-        self.DataFeedId = datafeed.CreateDataFeed()
+        if self.DataFeedId == '':
+            botlog.LogSymphonyInfo('Creating Datafeed...')
+            self.DataFeedId = datafeed.CreateDataFeed()
+        else:
+            botlog.LogSymphonyInfo('Attempting to Reuse Existing Datafeed in 5 seconds...')
+            for sleepIndex in range(0, 5):
+                botlog.LogConsoleInfo(str(sleepIndex) + '...')
+                time.sleep(1)
+
+            botlog.LogSymphonyInfo('Reconnecting to Datafeed...')
 
         if self.DataFeedId != '':
             botlog.LogSymphonyInfo('Datafeed Connected! Id: ' + self.DataFeedId)
@@ -103,7 +117,7 @@ class SymSession:
             if self.IsDatafeedConnected:
                 return
             else:
-                botlog.LogSymphonyError('Datafeed Connect attmpt ' +  str(index) + 'failed. Trying again in 5 seconds.')
+                botlog.LogSymphonyError('Datafeed Connect attmpt ' + str(index) + 'failed. Trying again in 5 seconds.')
                 time.sleep(5)
 
         botlog.LogSymphonyError('Maximum datafeed connection attempts reached. Halting bot.')

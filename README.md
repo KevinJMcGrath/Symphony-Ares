@@ -17,6 +17,7 @@ The bot was built using Pycharm on Ubuntu 17.04 and runs against Python 3.5, tho
     * cryptography.io - https://cryptography.io/en/latest/
     * Redis - https://pypi.python.org/pypi/redis
     * RQ - http://python-rq.org/
+    * dateutil - https://labix.org/python-dateutil
 
 * Redis 2.6.0 or better
 

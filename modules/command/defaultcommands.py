@@ -1,9 +1,12 @@
+import datetime
 import requests
 
 import modules.botlog as botlog
 import modules.botconfig as botconfig
 import modules.crypto as crypto
 import modules.symphony.messaging as messaging
+import modules.symphony.messagereader as symreader
+import modules.utility_date_time as utdt
 
 
 def SendSymphonyEcho(messageDetail):
@@ -20,6 +23,9 @@ def GetGoogleTranslation(messageDetail):
     transText = messageDetail.Command.MessageText
 
     if transText:
+
+        botlog.LogSymphonyInfo('Attempting to translate: ' + transText)
+
         payload = {"client": "gtx", "sl": "auto", "tl": "en", "dt": "t", "q": transText}
         transEP = "https://translate.googleapis.com/translate_a/single"
 
@@ -118,6 +124,30 @@ def SubmitUserFeedback(messageDetail):
     import modules.plugins.Salesforce.commands as sfdc
 
     sfdc.SubmitUserFeedback(messageDetail)
+
+
+def ReparseRoomFeedback(messageDetail):
+
+    streamId = messageDetail.StreamId
+
+    if len(messageDetail.Command.UnnamedParams) > 0:
+        timeStr = ''.join(messageDetail.Command.UnnamedParams)
+
+        offsetSeconds = utdt.ConvertShorthandToSeconds(timeStr)
+
+        if offsetSeconds <= 0:
+            offsetSeconds = 15*60
+    else:
+        # Default to 15 mins if no valid time string is provided
+        offsetSeconds = 15*60
+
+    dtReparse = datetime.datetime.now() + datetime.timedelta(seconds=-1*offsetSeconds)
+
+    messageList = symreader.GetSymphonyMessagesSinceDateTime(streamId, dtReparse)
+
+    from modules.plugins.Salesforce.commands import SubmitUserFeedbackCollection
+
+    SubmitUserFeedbackCollection(messageList)
     
 
 def RemoteShutdown(messageDetail):
