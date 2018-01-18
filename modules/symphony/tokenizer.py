@@ -1,7 +1,6 @@
 import binascii
 import re
 from lxml import etree
-import modules.botlog as log
 
 
 class CommandParser:
