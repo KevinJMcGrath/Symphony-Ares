@@ -44,7 +44,10 @@ class MessageDetail:
 
     def InitiateCommandParsing(self):
         if self.MessageRaw is not None:
-            self.Command = tokenizer.CommandParser(self.MessageRaw, True)
+            if self.MessageRaw.startswith('<message'):
+                self.Command = tokenizer.CommandParser(self.MessageRaw, True)
+            else:
+                log.LogSymphonyError('Invalid MessageML: ' + self.MessageRaw)
 
     def GetConsoleLogLine(self):
         # Python's ternary conditional is a stupid order just to be diffrent

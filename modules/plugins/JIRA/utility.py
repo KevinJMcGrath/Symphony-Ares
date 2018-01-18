@@ -51,7 +51,9 @@ def JIRA_REST(method, endpoint, body):
         if method == 'GET':
             response = jiraSession.get(endpoint)
         elif method == 'POST':
-            response = jiraSession.post(endpoint, json=body)
+            dataItem = json.dumps(body)
+            response = jiraSession.post(endpoint, data=dataItem)
+            # response = jiraSession.post(endpoint, json=body)
         else:
             raise MethodNotImplementedException(method + ' is not yet implemented.')
 

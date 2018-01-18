@@ -1,15 +1,22 @@
 import modules.plugins.JIRA.utility as util
+import modules.botlog as log
 
 
 def CreateBizOpsJIRAIssue(messageDetail):
 
     reporter = util.FindJIRAUserByEmail(messageDetail.Sender.Email)
 
-    summary = messageDetail.Command.MessageText.strip()[:50]
-    desc = summary + r'\n\nThis issue was submitted by Ares; may we never know the tip of his sword ' \
-                     r'or the heel of his boot.'
+    # replaced .Command.MessageText with .Command.MessageFlattened - 1/16/2018
+    summary = messageDetail.Command.MessageFlattened.strip()[:50]
+    desc = messageDetail.Command.MessageFlattened + \
+        '\n\nThis issue was submitted by Ares; may we never know the tip of his sword ' \
+        'or the heel of his boot.'
+
+    desc = desc.replace('/bizops', '').strip()
+    summary = summary.replace('/bizops', '').replace(r'\n', '').strip()
+
     issue = {"project": "BIZOPS", "issuetype": "Task", "priority": "Minor",
-             "summary": summary[:50], "description": desc, "reporter": reporter}
+             "summary": summary, "description": desc, "reporter": reporter}
 
     msg = CreateNewJIRA([], issue)
 
@@ -44,8 +51,8 @@ def CreateNewJIRA(unnamedArgList, namedArgDict):
 
     if 'summary' not in jiraIssue:
         jiraIssue['summary'] = remainder
-    else:
-        jiraIssue['description'] = remainder
+    # else:
+    #   jiraIssue['description'] = remainder
 
     jiraIssue['summary'] = 'Ares Submission: ' + jiraIssue['summary'] if 'summary' in jiraIssue else 'TBD'
 
@@ -65,7 +72,7 @@ def CreateNewJIRA(unnamedArgList, namedArgDict):
     if 'reporter' in jiraIssue:
         jiraForSubmit['issueUpdates'][0]['fields']['reporter'] = {"name": jiraIssue['reporter']}
 
-    if 'decription' in jiraIssue:
+    if 'description' in jiraIssue:
         jiraForSubmit['issueUpdates'][0]['fields']['description'] = jiraIssue['description']
 
     response = util.CreateIssue(jiraForSubmit)

@@ -1,6 +1,7 @@
 import binascii
 import re
 from lxml import etree
+import modules.botlog as log
 
 
 class CommandParser:
@@ -19,7 +20,8 @@ class CommandParser:
         self.MessageFlattened = ''
 
         if parseCommand:
-            self.MessageXML = etree.fromstring(messageRaw.replace('&', '&amp;'))
+            # self.MessageXML = etree.fromstring(messageRaw.replace('&', '&amp;'))
+            self.MessageXML = ParseXML(messageRaw)
             self.MessageFlattened = ConvertAllText(self.MessageXML)
 
             self.GetCommand()
@@ -32,14 +34,17 @@ class CommandParser:
 
     def GetCommand(self):
         # Get the first token and determine if it's a slash command
-        if self.MessageXML is not None and self.MessageXML.text:
+        if self.MessageXML is not None and self.MessageXML.text is not None and not self.MessageXML.text.isspace():
             self.CommandRaw = self.MessageXML.text.split()[0]
 
         if self.CommandRaw and self.CommandRaw.startswith('/'):
             self.CommandName = self.CommandRaw.replace('/', '')
             self.IsCommand = True
             self.CommandType = CommandTypes.Slash
+
+            # 1/16/2018 - Trying to solve the issue with leading line breaks
             self.MessageText = self.MessageXML.text.replace(self.CommandRaw, '')
+            # self.MessageText = self.MessageFlattened.replace(self.CommandRaw, '')
 
         else:
             for node in self.MessageXML:
@@ -90,6 +95,21 @@ class CommandParser:
                     self.UnnamedParams.append(arg)
 
 
+def ParseXML(messageRaw):
+
+    # First, I want to remove all the extra whitespace
+    regexStr = "\s\s+"
+    parsedRaw = re.sub(regexStr, ' ', messageRaw)
+
+    # Change & to &amp;
+    parsedRaw = parsedRaw.replace('&', '&amp;')
+
+    # messageRaw.replace('&', '&amp;')
+    rootNode = etree.fromstring(parsedRaw)
+
+    return rootNode
+
+
 # Use this method to convert all the xml into text values for whatever reason that might be useful
 def ConvertAllText(messageTree):
 
@@ -109,14 +129,14 @@ def ConvertAllText(messageTree):
         elif node.tag == 'chime':
             retVal.append('*chime*')
         elif node.tag == 'br':
-            retVal.append('\\n')
+            retVal.append('\n')
         elif node.tag == 'a':
             retVal.append(node.attrib['href'])
         elif node.tag == 'ul':
-            retVal.append('\\n')
+            retVal.append('\n')
         elif node.tag == 'li':
             if node.text:
-                retVal.append('* ' + node.text.strip() + '\\n')
+                retVal.append('* ' + node.text.strip() + '\n')
         else:
             if node.text:
                 st = node.text.strip()
@@ -131,20 +151,6 @@ def ConvertAllText(messageTree):
     return " ".join(retVal).replace('"', r'\"')
 
 
-def TrimEquals(inputStr):
-    regexEqual = r"\s*=\s*"
-
-    patternEqual = re.compile(regexEqual)
-    matchListEqual = patternEqual.finditer(inputStr)
-
-    for m in matchListEqual:
-        mtext = m.group(0)
-        replaceText = '='
-        inputStr = inputStr.replace(mtext, replaceText)
-
-    return inputStr
-
-
 def EncodeQuotedStrings(inputStr):
     # Need a little bit of a hacky solution to represent this regex
     regexQuote = "([\"" + r"'])(?:(?=(\\?))\2.)*?\1"
@@ -156,6 +162,20 @@ def EncodeQuotedStrings(inputStr):
     for m in matchListQuote:
         mtext = m.group(0)
         replaceText = '__hex__' + ConvertToHexString(mtext)
+        inputStr = inputStr.replace(mtext, replaceText)
+
+    return inputStr
+
+
+def TrimEquals(inputStr):
+    regexEqual = r"\s*=\s*"
+
+    patternEqual = re.compile(regexEqual)
+    matchListEqual = patternEqual.finditer(inputStr)
+
+    for m in matchListEqual:
+        mtext = m.group(0)
+        replaceText = '='
         inputStr = inputStr.replace(mtext, replaceText)
 
     return inputStr

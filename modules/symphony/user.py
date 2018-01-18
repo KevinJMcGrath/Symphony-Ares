@@ -1,6 +1,5 @@
 import modules.botconfig as config
 import modules.symphony.callout as callout
-import modules.symphony.messaging as messaging
 
 
 def IsValidSendingUser(emailAddress):
