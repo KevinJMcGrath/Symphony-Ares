@@ -48,6 +48,9 @@ class SymSession:
             if self.KeyAuthToken != '':
                 botlog.LogSymphonyInfo('Success! Key Manager token obtained.')
 
+                botlog.LogConsoleInfo('st: ' + self.SessionToken)
+                botlog.LogConsoleInfo('km: ' + self.KeyAuthToken)
+
                 self.SessionExpirationDate = datetime.date.today() + datetime.timedelta(days=7)
                 self.RESTHeaders = {"sessionToken": self.SessionToken, "keyManagerToken": self.KeyAuthToken,
                                     "Content-Type": "application/json"}

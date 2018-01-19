@@ -14,6 +14,11 @@ def SendSymphonyEcho(messageDetail):
     messaging.SendSymphonyMessage(messageDetail.StreamId, msg)
 
 
+def SendSymphonyEchoV2(messageDetail):
+    msg = messageDetail.Command.MessageText
+    messaging.SendSymphonyMessageV2(messageDetail.StreamId, msg)
+
+
 def LogSymphonyMessageDebug(messageDetail):
     botlog.LogSymphonyInfo('Message for Debugging: ' + repr(messageDetail.MessageRaw))
     messageDetail.ReplyToChat('Thank you for helping improve my code!')
@@ -190,3 +195,4 @@ def SendStatusCheck(messageDetail):
 
     if randReply:
         messageDetail.ReplyToChat(random.choice(replies))
+

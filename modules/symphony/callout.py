@@ -1,17 +1,21 @@
 import json
 import requests
+from requests_toolbelt import MultipartEncoder
 import traceback
 import types
 
 import modules.botconfig as config
 import modules.botlog as botlog
 
-
 agentSession = requests.Session()
 agentSession.cert = config.BotCertificate
 
+agentV2Session = requests.Session()
+agentV2Session.cert = config.BotCertificate
+
 
 def GetSessionToken():
+    botlog.LogConsoleInfo(config.SessionAuthEP)
     return GetSymphonyAuthToken(config.SessionAuthEP)
 
 
@@ -20,7 +24,6 @@ def GetKeyManagerToken():
 
 
 def GetSymphonyAuthToken(authEndpoint):
-    botlog.LogConsoleInfo(str(config.BotCertificate))
     response = SymphonyREST('AUTH', authEndpoint, None)
     return response.ResponseData.token
 
@@ -46,6 +49,10 @@ def SymphonyPOST(endpoint, body):
     return SymphonyREST('POST', endpoint, body)
 
 
+def SymphonyPOSTV2(endpoint, body):
+    return SymphonyREST('POSTV2', endpoint, body)
+
+
 def SymphonyREST(method, endpoint, body):
     retVal = SymphonyAgentResponse()
 
@@ -58,6 +65,8 @@ def SymphonyREST(method, endpoint, body):
             response = agentSession.get(endpoint)
         elif method == 'POST':
             response = agentSession.post(endpoint, data=body)
+        elif method == 'POSTV2':
+            response = PostV2(endpoint, body)
         elif method == 'AUTH':
             response = agentSession.post(endpoint)
         else:
@@ -100,6 +109,42 @@ def SymphonyREST(method, endpoint, body):
 
     finally:
         return retVal
+
+
+def PostV2(endpoint, body):
+    encoder = MultipartEncoder(fields=body)
+
+    v2SessionToken = GetSessionToken()
+    v2KeyAuthToken = GetKeyManagerToken()
+
+    v2Headers = {"sessionToken": v2SessionToken, "keyManagerToken": v2KeyAuthToken,
+                 "Content-Type": encoder.content_type}
+
+    agentV2Session.headers.update(v2Headers)
+
+    return agentV2Session.post(endpoint, data=encoder)
+
+
+# Does not work
+# I believe the problem is the Content-Type header, which does not include the boundary
+# statement. If I am prepared to build the boundary myself, I might be able to get this
+# to work without the requests_toolbelt package
+def PostV2_1(endpoint, body):
+    import io
+    ph = io.StringIO("")
+
+    tempSession = requests.Session()
+    tempSession.cert = config.BotCertificate
+
+    tempSessionToken = GetSessionToken()
+    tempKeyAuthToken = GetKeyManagerToken()
+
+    tempHeaders = {"sessionToken": tempSessionToken, "keyManagerToken": tempKeyAuthToken,
+                   "Content-Type": "multipart/form-data"}
+
+    tempSession.headers.update(tempHeaders)
+
+    return tempSession.post(endpoint, data=body, files=ph)
 
 
 class SymphonyAgentResponse:
