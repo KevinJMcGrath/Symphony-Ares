@@ -10,12 +10,12 @@ import modules.utility_date_time as utdt
 
 
 def SendSymphonyEcho(messageDetail):
-    msg = messageDetail.Command.MessageText
+    msg = messageDetail.Command.MessageText.strip()
     messaging.SendSymphonyMessage(messageDetail.StreamId, msg)
 
 
 def SendSymphonyEchoV2(messageDetail):
-    msg = messageDetail.Command.MessageText
+    msg = messageDetail.Command.MessageText.strip()
     messaging.SendSymphonyMessageV2(messageDetail.StreamId, msg)
 
 
@@ -195,4 +195,3 @@ def SendStatusCheck(messageDetail):
 
     if randReply:
         messageDetail.ReplyToChat(random.choice(replies))
-

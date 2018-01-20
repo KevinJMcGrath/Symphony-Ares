@@ -48,6 +48,7 @@ class MessageDetail:
                 self.Command = tokenizer.CommandParser(self.MessageRaw, True)
             else:
                 log.LogSymphonyError('Invalid MessageML: ' + self.MessageRaw)
+                self.IsValid = False
 
     def GetConsoleLogLine(self):
         # Python's ternary conditional is a stupid order just to be diffrent

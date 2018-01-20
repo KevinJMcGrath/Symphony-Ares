@@ -32,8 +32,6 @@ def SendSymphonyMessage(streamId, message: str):
     # messageEP = endpointRoom.substitute(host=config.SymphonyBaseURL, roomVersion='v2', streamId=streamId)
     messageEP = config.GetSendMessageEndpoint(streamId, config.MessageMLVersion.v1)
 
-    botlog.LogConsoleInfo(messageEP)
-
     bodyJSON = {"message": message, "format": "MESSAGEML"}
 
     botlog.LogSymphonyInfo('Sending Symphony Message | StreamId: ' + streamId + ' | Message: ' + message)
