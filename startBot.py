@@ -1,35 +1,58 @@
+import time
+
 import botbuilder
 import modules.botlog as botlog
 import modules.command.commandhub as hub
 import modules.symphony.datafeed as datafeed
 import modules.plugins.commandloader as cmdloader
 
-botlog.LogSymphonyInfo('Starting Ares session...')
-botSession = botbuilder.SymSession()
+loopCount = 0
 
-# Bot Loop Begins here
-loopControl = botSession.StartBot()
 
-# Pre-load the command definitions
-cmdloader.LoadAllCommands()
+def Main():
+    global loopCount
 
-while loopControl:
+    botlog.LogSymphonyInfo('Starting Ares session...')
+    botSession = botbuilder.SymSession()
 
-    messages = datafeed.PollDataFeed(botSession.DataFeedId)
+    # Bot Loop Begins here
+    loopControl = botSession.StartBot()
+    loopCount = 0
 
-    if messages is not None:
+    # Pre-load the command definitions
+    cmdloader.LoadAllCommands()
 
-        if len(messages) == 0:
-            # botlog.LogConsoleInfo('204 - No Content')
-            pass
+    while loopControl:
 
-        for msg in messages:
-            if msg.IsValid and msg.Sender.IsValidSender:
-                hub.ProcessCommand(msg)
+        messages = datafeed.PollDataFeed(botSession.DataFeedId)
 
-    else:
-        botlog.LogSymphonyInfo('Error detected reading datafeed. Invalidating session...')
-        botSession.InvalidateSession()
-        loopControl = False
+        if messages is not None:
 
-        loopControl = botSession.StartBot()
+            if len(messages) == 0:
+                # botlog.LogConsoleInfo('204 - No Content')
+                pass
+
+            for msg in messages:
+                if msg.IsValid and msg.Sender.IsValidSender:
+                    hub.ProcessCommand(msg)
+
+        else:
+            botlog.LogSymphonyInfo('Error detected reading datafeed. Invalidating session...')
+            botSession.InvalidateSession()
+            loopControl = False
+
+            loopControl = botSession.StartBot()
+
+
+while loopCount < 10:
+    try:
+        Main()
+    except SystemExit:
+        loopCount = 99
+        pass
+    except Exception as ex:
+        botlog.LogSystemError('Error: ' + str(ex))
+        botlog.LogSymphonyError('Unhandled error, probably network difficulties at the Agent. Retrying in 30s.')
+
+        time.sleep(30)
+        loopCount += 1

@@ -6,6 +6,8 @@ import traceback
 import unicodedata
 
 import modules.plugins.JIRA.logging as log
+from jira import JIRA
+
 
 _configPath = os.path.abspath('modules/plugins/JIRA/config.json')
 
@@ -18,6 +20,12 @@ jiraIssueURL = _config['jiraHost'] + "/browse/"
 jiraUsername = _config['jiraUsername']
 jiraPassword = _config['jiraPassword']
 
+# *****New jira-python library objects
+# jira = JIRA()
+# jiraloc = JIRA('https://perzoinc.atlassian.net')
+# auth_jira = JIRA(basic_auth=(jiraUsername, jiraPassword))
+# ***********************************************
+
 ValidSubmissionProjectKeys = _config['validProjects']
 UnnamedParameterOrder = _config['paramOrder']
 
@@ -27,6 +35,28 @@ jiraSession.headers.update({"Content-Type": "application/json"})
 
 # TODO: Figure out how to obfuscate user/pass
 # TODO: Load createmeta for each JIRA type to determine required fields
+
+
+def CreateIssueV2(projectKey: str, summary: str, desc: str, issueTypeName: str, **jiraFields):
+
+    jiraIssue = {
+        "project": {"key": projectKey},
+        "issuetype": {"name": issueTypeName},
+        "summary": summary,
+        "description": desc
+    }
+
+    for key, value in jiraFields.items():
+        pass
+
+
+# This method will check to make sure the key being passed matches a
+# valid JIRA field for submission, and then will either return
+# None if it's invalid, or it will return a tuple containing
+# the field name (which may be different from the submitted key, esp.
+# in the case of custom fields) and the formatted value for that field.
+def GetFormattedJIRAField(key: str, value):
+    pass
 
 
 def FindJIRAUserByEmail(emailAddress):
@@ -39,7 +69,7 @@ def FindJIRAUserByEmail(emailAddress):
 def CreateIssue(jiraIssue):
     log.LogJIRAMessage('Sending JIRA Issue JSON: ' + json.dumps(jiraIssue))
 
-    ep = jiraAPIendpoint + '/issue/bulk'
+    ep: str = jiraAPIendpoint + '/issue/bulk'
     return JIRA_REST('POST', ep, jiraIssue)
 
 
@@ -65,6 +95,9 @@ def JIRA_REST(method, endpoint, body):
         stackTrace = 'Stack Trace: ' + ''.join(traceback.format_stack())
         log.LogJIRAError(errorStr)
         log.LogJIRAError(stackTrace)
+
+        if response is not None:
+            log.LogJIRAError(response.text)
 
     except requests.exceptions.RequestException as connex:
         errorStr = "JIRA REST Exception (connection): " + str(connex)

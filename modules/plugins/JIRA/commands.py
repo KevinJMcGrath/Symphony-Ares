@@ -2,6 +2,15 @@ import modules.plugins.JIRA.utility as util
 import modules.botlog as log
 
 
+def CreateBizOpsJIRAIssueV2(messageDetail):
+    reporter = util.FindJIRAUserByEmail(messageDetail.Sender.Email)
+
+    # jiraDict = {}
+
+    # jiraDict['summary'] = messageDetail.Command.MessageFlattened.strip()
+    # jiraDict
+
+
 def CreateBizOpsJIRAIssue(messageDetail):
 
     reporter = util.FindJIRAUserByEmail(messageDetail.Sender.Email)
@@ -13,7 +22,7 @@ def CreateBizOpsJIRAIssue(messageDetail):
         'or the heel of his boot.'
 
     desc = desc.replace('/bizops', '').strip()
-    summary = summary.replace('/bizops', '').replace(r'\n', '').strip()
+    summary = summary.replace('/bizops', '').replace(r'\n', '').replace('\n', '').strip()
 
     issue = {"project": "BIZOPS", "issuetype": "Task", "priority": "Minor",
              "summary": summary, "description": desc, "reporter": reporter}
