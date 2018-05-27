@@ -34,6 +34,8 @@ def SubmitFeedbackJIRAv2(messageDetail):
 
             # Union (|=) the epic specific labels with the hashtag labels
             labelSet |= set(epic_item['labels'])
+
+            watcherList = epic_item['mention']
         else:
             log.LogConsoleInfo('No epic match was returned!')
 
@@ -72,14 +74,6 @@ def SubmitFeedbackJIRAv2(messageDetail):
         regexHashtags = r"(\#[a-zA-Z]+\b)"
         summary = re.sub(regexHashtags, '', messageDetail.Command.MessageFlattened)
 
-        # Regex to replace extra spaces with single space
-        regexSpace = "\s\s+"
-        summary = re.sub(regexSpace, ' ', summary)[:100]
-
-        if messageDetail.Command.CommandRaw is not None:
-            summary = summary.replace(messageDetail.Command.CommandRaw, '')
-            summary = summary.strip()
-
         # Build dict of UID/Users
         for uid in messageDetail.Command.Mentions:
             try:
@@ -100,6 +94,15 @@ def SubmitFeedbackJIRAv2(messageDetail):
 
             except Exception as ex:
                 log.LogSystemError(str(ex))
+
+        # clean up summary
+        # Regex to replace extra spaces with single space
+        regexSpace = "\s\s+"
+        summary = re.sub(regexSpace, ' ', summary)[:100]
+
+        if messageDetail.Command.CommandRaw is not None:
+            summary = summary.replace(messageDetail.Command.CommandRaw, '')
+            summary = summary.strip()
 
         nosubmit = False
         debug = False
