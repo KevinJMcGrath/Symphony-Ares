@@ -65,8 +65,14 @@ class MessageDetail:
     def ReplyToChat(self, message: str):
         msg.SendSymphonyMessage(self.StreamId, message)
 
+    def ReplyToChatv2(self, message: str, data=None):
+        msg.SendSymphonyMessageV2(self.StreamId, message, data)
+
     def ReplyToSender(self, message: str):
         msg.SendUserIM([self.FromUserId], message)
+
+    def ReplyToSenderv2(self, message: str, data=None):
+        msg.SendUserIMv2([self.FromUserId], message, data)
 
     def NewIM(self, message: str, users: List[int]):
         msg.SendUserIM(users, message)

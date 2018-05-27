@@ -6,7 +6,7 @@ import modules.botconfig as config
 import modules.botlog as botlog
 
 
-def SendUserIM(userIds, message, endpointVersion='v1'):
+def SendUserIM(userIds, message, endpointVersion='v1', data=None):
     # createEP = config.SymphonyBaseURL + '/pod/v1/im/create'
     # createEP = endpointIM.substitute(host=config.SymphonyBaseURL, imVersion=endpointVersion)
 
@@ -21,7 +21,11 @@ def SendUserIM(userIds, message, endpointVersion='v1'):
     if endpointVersion == 'v1':
         SendSymphonyMessage(streamId, message)
     else:
-        SendSymphonyMessageV2(streamId, message)
+        SendSymphonyMessageV2(streamId, message, data)
+
+
+def SendUserIMv2(userIds, message, data=None):
+    SendUserIM(userIds, message, endpointVersion='v2', data=data)
 
 
 def SendSymphonyMessage(streamId, message: str):
@@ -68,6 +72,13 @@ def FormatSymphonyId(streamId: str):
     return re.sub("==$", "", streamId.replace("/", "_"))
 
 
+def FormatDicttoMML2(jsonObj: dict) -> str:
+    json_str = json.dumps(jsonObj, indent=4, separators=(',', ': ')).replace('"', '&quot;').replace('\'', '&apos;')
+
+    # apparently you need to include a newline character before the closing code tag. Why? ¯\_(-_-)_/¯
+    json_str = "<code>" + json_str + "\n</code>"
+
+    return json_str
 
 
 

@@ -1,5 +1,146 @@
+import re
+import traceback
+
 import modules.plugins.JIRA.utility as util
+import modules.plugins.JIRA.feedback.matching as fbmatch
+import modules.symphony.user as user
 import modules.botlog as log
+
+
+def SubmitFeedbackJIRAv2(messageDetail):
+    try:
+        issueFieldsDict = {}
+        watcherList = []
+        labelSet = set(messageDetail.Command.Hashtags)
+
+        reporter_field = {
+            "name": util.FindJIRAUserByEmailV2(messageDetail.Sender.Email)
+        }
+
+        issueFieldsDict['reporter'] = reporter_field
+
+        project = 'SFDC'
+        type_name = 'Unknown'
+        bodyDetail: str = messageDetail.Command.MessageFlattened
+
+        # Conduct Epic Search
+        epic_item = fbmatch.MatchEpic(bodyDetail)
+
+        if epic_item is not None:
+            issueFieldsDict['assignee'] = {"name": epic_item['assignTo']}
+
+            if epic_item['epic'] != "":
+                issueFieldsDict['customfield_10200'] = epic_item['epic']
+
+            # Union (|=) the epic specific labels with the hashtag labels
+            labelSet |= set(epic_item['labels'])
+        else:
+            log.LogConsoleInfo('No epic match was returned!')
+
+        # convert label set to list for JSON serialization
+        issueFieldsDict['labels'] = list(labelSet)
+
+        # Determine what type the feedback is
+        type_dict = {
+            "bug": "Bug",
+            'bugs': 'Bug',
+            'defect': 'Bug',
+            'defects': 'Bug',
+            'problem': 'Bug',
+            'problems': 'Bug',
+            'feature': 'New Feature',
+            'features': 'New Feature',
+            'featurerequest': 'New Feature',
+            'missing': 'New Feature',
+            'needed': 'New Feature',
+            'required': 'New Feature',
+            'newfeature': 'New Feature',
+            'newfeaturerequest': 'New Feature',
+            'usability': 'Usability Issue',
+            'useability': 'Usability Issue',
+            'performance': 'Usability Issue',
+            'unstable': 'Usability Issue',
+            'awkward': 'Usability Issue'
+        }
+
+        for tag in messageDetail.Command.Hashtags:
+            if tag.lower() in type_dict:
+                type_name = type_dict[tag.lower()]
+                break
+
+        # Regex to identify hash tags.
+        regexHashtags = r"(\#[a-zA-Z]+\b)"
+        summary = re.sub(regexHashtags, '', messageDetail.Command.MessageFlattened)
+
+        # Regex to replace extra spaces with single space
+        regexSpace = "\s\s+"
+        summary = re.sub(regexSpace, ' ', summary)[:100]
+
+        if messageDetail.Command.CommandRaw is not None:
+            summary = summary.replace(messageDetail.Command.CommandRaw, '')
+            summary = summary.strip()
+
+        # Build dict of UID/Users
+        for uid in messageDetail.Command.Mentions:
+            try:
+                userStr = '_u_' + uid
+                userObj = user.GetSymphonyUserDetail(uid)
+
+                if userObj.Id != '-1':
+                    bodyReplace = userObj.FullName + '(' + userObj.Email + ')'
+                    bodyDetail = bodyDetail.replace(userStr, bodyReplace)
+
+                    # no need to include the mentioned users in the Summary
+                    summary = summary.replace(userStr, '')
+
+                    jiraUser = util.FindJIRAUserByEmailV2(userObj.Email)
+
+                    if jiraUser is not None:
+                        watcherList.append(jiraUser)
+
+            except Exception as ex:
+                log.LogSystemError(str(ex))
+
+        nosubmit = False
+        debug = False
+        for tag in messageDetail.Command.Hashtags:
+            if tag.lower() == 'nosubmit':
+                nosubmit = True
+            elif tag.lower() == 'debug':
+                debug = True
+
+        if not nosubmit:
+            new_issue = util.CreateIssueV2(projectKey=project, summary=summary, desc=bodyDetail,
+                                           issueTypeName=type_name, jiraFields=issueFieldsDict)
+
+            # add watchers
+            util.AddWatchersV2(new_issue, watcherList)
+
+            msg = 'JIRA created successfully.<br/>Key: ' + new_issue.key + "<br/>JIRA Link: <a href='" + \
+                  new_issue.permalink() + "'/>"
+
+            messageDetail.ReplyToSenderv2(msg)
+        else:
+            msg = 'Feedback received but #nosubmit was included. Issue not sent to JIRA.'
+            messageDetail.ReplyToSenderv2(msg)
+
+        if debug:
+            issueFieldsDict['project'] = project
+            issueFieldsDict['summary'] = summary
+            issueFieldsDict['description'] = bodyDetail
+            issueFieldsDict['issueType'] = type_name
+
+            from modules.symphony.messaging import FormatDicttoMML2 as json_format
+            json_str = json_format(issueFieldsDict)
+
+            messageDetail.ReplyToSenderv2(json_str)
+
+    except Exception as ex:
+        errStr = 'Unable to submit JIRA. Error: ' + str(ex)
+        messageDetail.ReplyToSenderv2(errStr)
+        stackTrace = 'Stack Trace: ' + ''.join(traceback.format_exc())
+        log.LogSymphonyError(errStr)
+        log.LogSymphonyError(stackTrace)
 
 
 def CreateBizOpsJIRAIssueV2(messageDetail):

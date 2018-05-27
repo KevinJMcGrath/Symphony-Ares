@@ -1,0 +1,254 @@
+{
+  "default": {
+    "name": "defaults",
+    "epic": "SFDC-185",
+    "assignTo": "julia.cowing",
+    "mention": [],
+    "labels": ["Unmatched"]
+  },
+  "epics": [
+    {
+      "name": "test",
+      "epic": "SFDC-944",
+      "assignTo": "julia.cowing",
+      "mention": ["kevin.mcgrath"],
+      "priority": 0,
+      "keywords": ["test", "debug", "nosubmit", "blah"],
+      "labels": ["Test"]
+    },
+    {
+      "name": "mentions",
+      "epic": "SFDC-695",
+      "assignTo": "alok.pradhan",
+      "mention": ["amy.kleinerman"],
+      "priority": 1,
+      "keywords": ["mention", "@mention", "lookup"],
+      "labels": ["Mentions"]
+    },
+    {
+      "name": "ac_portal",
+      "epic": "SFDC-186",
+      "assignTo": "ademirtjis",
+      "mention": ["dana.sheik"],
+      "priority": 2,
+      "keywords": ["admin", "compliance", "portal", "audit"],
+      "labels": ["AC-Portal"]
+    },
+    {
+      "name": "blast",
+      "epic": "SFDC-306",
+      "assignTo": "savvithri.sivaram",
+      "mention": [],
+      "priority": 3,
+      "keywords": ["blast", "broadcast", "mass"],
+      "labels": ["Blast"]
+    },
+    {
+      "name": "client_2.0",
+      "epic": "SFDC-695",
+      "assignTo": "alok.pradhan",
+      "mention": ["shannon"],
+      "priority": 4,
+      "keywords": ["next", "prelude"],
+      "labels": ["Prelude"]
+    },
+    {
+      "name": "community",
+      "epic": "SFDC-155",
+      "assignTo": "savvithri.sivaram",
+      "mention": ["shannon", "leah"],
+      "priority": 5,
+      "keywords": ["community", "adoption", "xpod", "cross-pod", "directory"],
+      "labels": ["Community"]
+    },
+    {
+      "name": "modules",
+      "epic": "SFDC-187",
+      "assignTo": "alok.pradhan",
+      "mention": ["diana.bloom"],
+      "priority": 6,
+      "keywords": ["module", "window", "room", "canvas"],
+      "labels": ["Modules"]
+    },
+    {
+      "name": "email",
+      "epic": "SFDC-694",
+      "assignTo": "shannon",
+      "mention": ["david"],
+      "priority": 7,
+      "keywords": ["email integration"],
+      "labels": ["EmailIntegration"]
+    },
+    {
+      "name": "electron",
+      "epic": "",
+      "assignTo": "savvithri.sivaram",
+      "mention": ["eric.chao"],
+      "priority": 8,
+      "keywords": ["electron", "desktop", "wrapper"],
+      "labels": ["Electron"]
+    },
+    {
+      "name": "search",
+      "epic": "SFDC-28",
+      "assignTo": "alok.pradhan",
+      "mention": ["amy.kleinerman"],
+      "priority": 9,
+      "keywords": ["search", "filter", "find", "locate"],
+      "labels": ["Search"]
+    },
+    {
+      "name": "help_guide",
+      "epic": "SFDC-33",
+      "assignTo": "savvithri.sivaram",
+      "mention": [],
+      "priority": 10,
+      "keywords": ["help", "guide", "documentation"],
+      "labels": ["HelpGuide"]
+    },
+    {
+      "name": "inbox",
+      "epic": "SFDC-35",
+      "assignTo": "savvithri.sivaram",
+      "mention": ["shannon"],
+      "priority": 11,
+      "keywords": ["inbox"],
+      "labels": ["Inbox"]
+    },
+    {
+      "name": "layout",
+      "epic": "SFDC-187",
+      "assignTo": "savvithri.sivaram",
+      "mention": ["shannon"],
+      "priority": 12,
+      "keywords": ["pin", "grid", "layout"],
+      "labels": ["Layout"]
+    },
+    {
+      "name": "left_nav",
+      "epic": "SFDC-30",
+      "assignTo": "alok.pradhan",
+      "mention": ["matt.arnold"],
+      "priority": 13,
+      "keywords": ["nav", "left nav", "navigation", "menu", "folder", "group", "sort"],
+      "labels": ["LeftNav"]
+    },
+    {
+      "name": "meetings",
+      "epic": "SFDC-271",
+      "assignTo": "devidas",
+      "mention": ["shannon"],
+      "priority": 14,
+      "keywords": ["meeting", "webrtc", "rtc", "video", "conference", "audio"],
+      "labels": ["WebRTC"]
+    },
+    {
+      "name": "mobile",
+      "epic": "SFDC-188",
+      "assignTo": "devidas",
+      "mention": ["tejay.do"],
+      "priority": 15,
+      "keywords": ["mobile", "ios", "android", "blackberry", "phone", "tablet", "device"],
+      "labels": ["Mobile"]
+    },
+    {
+      "name": "notifications",
+      "epic": "SFDC-270",
+      "assignTo": "devidas",
+      "mention": ["shannon"],
+      "priority": 16,
+      "keywords": ["notification", "toast", "popup", "pop-up", "chime", "notice"],
+      "labels": ["Notifications"]
+    },
+    {
+      "name": "performance",
+      "epic": "SFDC-695",
+      "assignTo": "alok.pradhan",
+      "mention": [],
+      "priority": 17,
+      "keywords": ["speed", "performance", "slow", "sluggish", "faster", "lag", "load time"],
+      "labels": ["Performance"]
+    },
+    {
+      "name": "platform",
+      "epic": "SFDC-694",
+      "assignTo": "vincent",
+      "mention": ["jeff.tyson"],
+      "priority": 18,
+      "keywords": ["platform", "api", "agent", "rest", "develop", "partner", "app"],
+      "labels": ["Platform"]
+    },
+    {
+      "name": "presence",
+      "epic": "SFDC-695",
+      "assignTo": "devidas",
+      "mention": [],
+      "priority": 19,
+      "keywords": ["presence", "online", "away", "badge"],
+      "labels": ["Presence"]
+    },
+    {
+      "name": "profile",
+      "epic": "SFDC-31",
+      "assignTo": "jason.liu",
+      "mention": ["jessica.brooke"],
+      "priority": 20,
+      "keywords": ["profile", "wall", "post", "account"],
+      "labels": ["Profile"]
+    },
+    {
+      "name": "rte",
+      "epic": "SFDC-925",
+      "assignTo": "alok.pradhan",
+      "mention": ["jessica.brooke"],
+      "priority": 21,
+      "keywords": ["edit", "rte", "rich", "chevron", "text", "format"],
+      "labels": ["RTE"]
+    },
+    {
+      "name": "security",
+      "epic": "",
+      "assignTo": "ademirtjis",
+      "mention": [],
+      "priority": 22,
+      "keywords": ["security", "dlp", "data", "loss", "warning"],
+      "labels": ["Security"]
+    },
+    {
+      "name": "info_barrier",
+      "epic": "",
+      "assignTo": "rodrigo.leite",
+      "mention": ["dana.sheik"],
+      "priority": 23,
+      "keywords": ["ib", "barrier", "entitlement"],
+      "labels": ["InfoBarriers"]
+    },
+    {
+      "name": "files",
+      "epic": "",
+      "assignTo": "alok.pradhan",
+      "mention": ["dana.sheik"],
+      "priority": 24,
+      "keywords": ["file", "attach", "upload", "download"],
+      "labels": ["SendFiles"]
+    },
+    {
+      "name": "signals",
+      "epic": "SFDC-29",
+      "assignTo": "alok.pradhan",
+      "mention": ["shannon"],
+      "priority": 25,
+      "keywords": ["signal", "hash", "cash", "follow"],
+      "labels": ["Signals"]
+    },
+    {
+      "name": "usability",
+      "epic": "SFDC-389",
+      "assignTo": "savvithri.sivaram",
+      "mention": ["eric.chao", "julia.cowing"],
+      "priority": 26,
+      "keywords": ["color", "font", "visibi", "background", "theme"],
+      "labels": ["UIUsability"]
+    }
+  ]
+}

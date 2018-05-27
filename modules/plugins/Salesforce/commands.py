@@ -48,6 +48,8 @@ def SubmitUserFeedbackCollection(messageDetailList):
     if submitCount > 0:
         messageDetailList[0].ReplyToChat('Resubmitted ' + str(submitCount) + ' messages; '
                                          + str(successCount) + ' succeeded.')
+    else:
+        messageDetailList[0].ReplyToChat('No feedback-messages were found.')
 
 
 def SubmitSFDCFeedbackRequest(messageDetail):

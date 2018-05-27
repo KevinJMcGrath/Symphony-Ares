@@ -21,9 +21,9 @@ jiraUsername = _config['jiraUsername']
 jiraPassword = _config['jiraPassword']
 
 # *****New jira-python library objects
-# jira = JIRA()
-# jiraloc = JIRA('https://perzoinc.atlassian.net')
-# auth_jira = JIRA(basic_auth=(jiraUsername, jiraPassword))
+#
+auth_jira = JIRA('https://perzoinc.atlassian.net', basic_auth=(jiraUsername, jiraPassword))
+#
 # ***********************************************
 
 ValidSubmissionProjectKeys = _config['validProjects']
@@ -37,7 +37,7 @@ jiraSession.headers.update({"Content-Type": "application/json"})
 # TODO: Load createmeta for each JIRA type to determine required fields
 
 
-def CreateIssueV2(projectKey: str, summary: str, desc: str, issueTypeName: str, **jiraFields):
+def CreateIssueV2(projectKey: str, summary: str, desc: str, issueTypeName: str, jiraFields):
 
     jiraIssue = {
         "project": {"key": projectKey},
@@ -47,7 +47,24 @@ def CreateIssueV2(projectKey: str, summary: str, desc: str, issueTypeName: str, 
     }
 
     for key, value in jiraFields.items():
-        pass
+        jiraIssue[key] = value
+
+    # log.LogJIRAMessage('JIRA for submission: ' + json.dumps(jiraIssue))
+
+    return auth_jira.create_issue(fields=jiraIssue)
+
+
+def AddWatchersV2(issue, watcherList):
+
+    if issue is not None:
+        # remove duplicates from watcher list
+        watcherList = list(set(watcherList))
+
+        for watcher in watcherList:
+            try:
+                auth_jira.add_watcher(issue, watcher)
+            except Exception as ex:
+                log.LogJIRAError('Unable to add watcher (' + watcher + '): ' + str(ex))
 
 
 # This method will check to make sure the key being passed matches a
@@ -57,6 +74,15 @@ def CreateIssueV2(projectKey: str, summary: str, desc: str, issueTypeName: str, 
 # in the case of custom fields) and the formatted value for that field.
 def GetFormattedJIRAField(key: str, value):
     pass
+
+
+def FindJIRAUserByEmailV2(emailAddress):
+    user_list = auth_jira.search_users(emailAddress)
+
+    if user_list and len(user_list) > 0:
+        return user_list[0].key
+    else:
+        return None
 
 
 def FindJIRAUserByEmail(emailAddress):

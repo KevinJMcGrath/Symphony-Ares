@@ -2,6 +2,8 @@ import binascii
 import re
 from lxml import etree
 
+import modules.botlog as log
+
 
 class CommandParser:
     def __init__(self, messageRaw, parseCommand):
@@ -19,6 +21,8 @@ class CommandParser:
         self.MessageFlattened = ''
 
         if parseCommand:
+            # log.LogConsoleInfo('(tokenizer) Raw XML: ' + messageRaw)
+
             # self.MessageXML = etree.fromstring(messageRaw.replace('&', '&amp;'))
             self.MessageXML = ParseXML(messageRaw)
             self.MessageFlattened = ConvertAllText(self.MessageXML)
@@ -36,6 +40,14 @@ class CommandParser:
         if self.MessageXML is not None and self.MessageXML.text is not None and not self.MessageXML.text.isspace():
             self.CommandRaw = self.MessageXML.text.split()[0]
 
+            # populate Hashtag and Mention list
+            for node in self.MessageXML:
+                if node.tag == 'hash':
+                    self.Hashtags.append(node.attrib['tag'])  # get the name of the hashtag for processing
+                elif node.tag == 'mention':
+                    uid = node.attrib['uid']
+                    self.Mentions.append(uid)
+
         if self.CommandRaw and self.CommandRaw.startswith('/'):
             self.CommandName = self.CommandRaw.replace('/', '')
             self.IsCommand = True
@@ -46,12 +58,6 @@ class CommandParser:
             # self.MessageText = self.MessageFlattened.replace(self.CommandRaw, '')
 
         else:
-            for node in self.MessageXML:
-                if node.tag == 'hash':
-                    self.Hashtags.append(node.attrib['tag'])  # get the name of the hashtag for processing
-                elif node.tag == 'mention':
-                    self.Mentions.append(node.attrib['uid'])
-
             if len(self.Hashtags) > 0:
                 self.CommandRaw = '_hashtag_'
                 self.CommandName = '_hashtag_'

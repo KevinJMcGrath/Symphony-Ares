@@ -1,5 +1,6 @@
 import modules.botconfig as config
 import modules.symphony.callout as callout
+import modules.botlog as log
 
 
 def IsValidSendingUser(emailAddress):
@@ -50,3 +51,5 @@ class SymphonyUser:
             self.Name = user.displayName  # fname + ' ' + lname
             self.Company = user.company  # company
             self.IsValidSender = IsValidSendingUser(self.Email)
+
+        self.FullName = self.FirstName + ' ' + self.LastName

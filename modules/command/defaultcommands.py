@@ -19,6 +19,11 @@ def SendSymphonyEchoV2(messageDetail):
     messaging.SendSymphonyMessageV2(messageDetail.StreamId, msg)
 
 
+def TestCodeSnip(messageDetail):
+    testStr = "<code>    &quot;test&quot;\n        test2\n</code>"
+    messaging.SendSymphonyMessageV2(messageDetail.StreamId, testStr)
+
+
 def LogSymphonyMessageDebug(messageDetail):
     botlog.LogSymphonyInfo('Message for Debugging: ' + repr(messageDetail.MessageRaw))
     messageDetail.ReplyToChat('Thank you for helping improve my code!')
@@ -149,6 +154,8 @@ def ReparseRoomFeedback(messageDetail):
     dtReparse = datetime.datetime.now() + datetime.timedelta(seconds=-1*offsetSeconds)
 
     messageList = symreader.GetSymphonyMessagesSinceDateTime(streamId, dtReparse)
+
+    botlog.LogConsoleInfo('Attempting to resubmit (' + str(len(messageList)) + ') messages.')
 
     from modules.plugins.Salesforce.commands import SubmitUserFeedbackCollection
 

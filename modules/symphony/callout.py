@@ -28,14 +28,27 @@ def GetSymphonyAuthToken(authEndpoint):
     return response.ResponseData.token
 
 
+def BuildHeaders(sessionToken, keyAuthToken, contentType="application/json"):
+    RESTheaders = {
+        "sessionToken": sessionToken,
+        "keyManagerToken": keyAuthToken,
+        "Content-Type": contentType,
+        "User-Agent": "AresBot (Kevin McGrath - BizOps - kevin.mcgrath@symphony.com)"
+    }
+
+    return RESTheaders
+
+
 def SymphonyReAuth():
     global agentSession
 
     sessionToken = GetSessionToken()
     keyAuthToken = GetKeyManagerToken()
 
-    RESTHeaders = {"sessionToken": sessionToken, "keyManagerToken": keyAuthToken,
-                   "Content-Type": "application/json"}
+    # RESTHeaders = {"sessionToken": sessionToken, "keyManagerToken": keyAuthToken,
+    #                "Content-Type": "application/json"}
+
+    RESTHeaders = BuildHeaders(sessionToken, keyAuthToken)
 
     # Attempting to use requests.Session
     agentSession.headers.update(RESTHeaders)
@@ -117,8 +130,10 @@ def PostV2(endpoint, body):
     v2SessionToken = GetSessionToken()
     v2KeyAuthToken = GetKeyManagerToken()
 
-    v2Headers = {"sessionToken": v2SessionToken, "keyManagerToken": v2KeyAuthToken,
-                 "Content-Type": encoder.content_type}
+    # v2Headers = {"sessionToken": v2SessionToken, "keyManagerToken": v2KeyAuthToken,
+    #              "Content-Type": encoder.content_type}
+
+    v2Headers = BuildHeaders(v2SessionToken, v2KeyAuthToken, encoder.content_type)
 
     agentV2Session.headers.update(v2Headers)
 

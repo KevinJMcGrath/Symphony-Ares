@@ -49,8 +49,10 @@ class SymSession:
                 botlog.LogSymphonyInfo('Success! Key Manager token obtained.')
 
                 self.SessionExpirationDate = datetime.date.today() + datetime.timedelta(days=7)
-                self.RESTHeaders = {"sessionToken": self.SessionToken, "keyManagerToken": self.KeyAuthToken,
-                                    "Content-Type": "application/json"}
+                # self.RESTHeaders = {"sessionToken": self.SessionToken, "keyManagerToken": self.KeyAuthToken,
+                #                     "Content-Type": "application/json"}
+
+                self.RESTHeaders = callout.BuildHeaders(self.SessionToken, self.KeyAuthToken)
 
                 # Attempting to use requests.Session
                 callout.agentSession.headers.update(self.RESTHeaders)
