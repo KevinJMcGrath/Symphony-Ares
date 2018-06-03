@@ -1,0 +1,13 @@
+{
+  "search_engines": [
+    {
+      "name": "wikipedia",
+      "baseURL": "https://en.wikipedia.org/w/api.php?",
+      "params": [
+        {"name": "action", "value": "query", "required": true},
+        {"name": "titles", "value": "", "required": true}
+      ],
+      "user-agent": "Symphony-Ares-Bot/1.5 (https://www.symphony.com; kevin.mcgrath@symphony.com) QuerkPOC"
+    }
+  ]
+}

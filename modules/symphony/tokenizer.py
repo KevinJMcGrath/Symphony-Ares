@@ -14,6 +14,7 @@ class CommandParser:
         self.CommandName = ''
         self.Hashtags = []
         self.Mentions = []
+        self.Querks = []
         self.UnnamedParams = []
         self.NamedParams = {}
         self.MessageXML = None
@@ -25,21 +26,20 @@ class CommandParser:
 
             # self.MessageXML = etree.fromstring(messageRaw.replace('&', '&amp;'))
             self.MessageXML = ParseXML(messageRaw)
-            self.MessageFlattened = ConvertAllText(self.MessageXML)
+            self.MessageFlattened = ConvertAllText(self.MessageXML) #.strip()
 
             self.GetCommand()
 
             if self.IsCommand:
                 if self.CommandType == CommandTypes.Slash:
                     self.ParseSlashCommandParameters()
+                elif self.CommandType == CommandTypes.Querk:
+                    self.ParseQuerk()
                 elif self.CommandType == CommandTypes.Hash:
                     pass
 
     def GetCommand(self):
-        # Get the first token and determine if it's a slash command
-        if self.MessageXML is not None and self.MessageXML.text is not None and not self.MessageXML.text.isspace():
-            self.CommandRaw = self.MessageXML.text.split()[0]
-
+        if self.MessageXML is not None:
             # populate Hashtag and Mention list
             for node in self.MessageXML:
                 if node.tag == 'hash':
@@ -47,6 +47,10 @@ class CommandParser:
                 elif node.tag == 'mention':
                     uid = node.attrib['uid']
                     self.Mentions.append(uid)
+
+            # Get the first token and determine if it's a slash command
+            if self.MessageXML.text is not None and not self.MessageXML.text.isspace():
+                self.CommandRaw = self.MessageXML.text.split()[0]
 
         if self.CommandRaw and self.CommandRaw.startswith('/'):
             self.CommandName = self.CommandRaw.replace('/', '')
@@ -57,12 +61,20 @@ class CommandParser:
             self.MessageText = self.MessageXML.text.replace(self.CommandRaw, '')
             # self.MessageText = self.MessageFlattened.replace(self.CommandRaw, '')
 
+        elif self.CommandRaw and self.CommandRaw.startswith('?'):
+            self.CommandName = '_querk_'
+            self.IsCommand = True
+            self.CommandType = CommandTypes.Querk
         else:
             if len(self.Hashtags) > 0:
                 self.CommandRaw = '_hashtag_'
                 self.CommandName = '_hashtag_'
                 self.IsCommand = True
                 self.CommandType = CommandTypes.Hash
+
+    def ParseQuerk(self):
+        if self.MessageFlattened.startswith('?'):
+            self.MessageFlattened = self.MessageFlattened.lstrip('?').lstrip()
 
     def ParseSlashCommandParameters(self):
 
@@ -193,4 +205,4 @@ def ConvertToHexString(inputStr):
 
 
 class CommandTypes:
-    Slash, Hash, Responder, TBD = range(4)
+    Slash, Hash, Responder, TBD, Querk = range(5)

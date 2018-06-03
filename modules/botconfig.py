@@ -62,6 +62,7 @@ BotCertificate = (_certFilePath, _certKeyfilePath)
 BotEmailAddress = _config['botinfo']['botEmail']
 
 BaseLoggingPath = os.path.abspath(_config['loggingPath'])
+LogToFile = _config['logToFile']
 
 Blacklist = _config['blacklist']
 

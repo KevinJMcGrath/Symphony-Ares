@@ -3,6 +3,7 @@ import importlib
 import modules.botconfig as config
 import modules.plugins.commandloader as cmdloader
 import modules.command.commandqueue as queue
+import modules.command.querk as querk
 from modules.symphony.tokenizer import CommandTypes
 
 # import modules.botlog as botlog
@@ -16,6 +17,8 @@ def ProcessCommand(messageDetail):
             RunSlashCommand(messageDetail)
         elif messageDetail.Command.CommandType == CommandTypes.Hash:
             RunHashCommand(messageDetail)
+        elif messageDetail.Command.CommandType == CommandTypes.Querk:
+            RunQuerk(messageDetail)
 
 
 def SendReply(messageDetail, reply):
@@ -75,3 +78,7 @@ def RunHashCommand(messageDetail):
                 SendReply(messageDetail, "Sadly, I found triggers for those hashtags, "
                                          "but the related function is incomplete or missing.")
             break
+
+
+def RunQuerk(messageDetail):
+    pass
