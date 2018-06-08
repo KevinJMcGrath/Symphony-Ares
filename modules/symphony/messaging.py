@@ -56,7 +56,7 @@ def SendSymphonyMessageV2(streamId, message: str, data=None):
 
     bodyObj = {"message": message, "data": data}
 
-    botlog.LogSymphonyInfo('Sending Symphony Message V4 | StreamId: ' + streamId + ' | Message: ' + message)
+    botlog.LogSymphonyInfo('Sending Symphony Message V4 | StreamId: ' + streamId)
     return callout.SymphonyPOSTV2(messageEP, bodyObj)
 
 

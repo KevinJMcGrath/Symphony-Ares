@@ -8,22 +8,13 @@
   },
   "epics": [
     {
-      "name": "test",
-      "epic": "SFDC-944",
-      "assignTo": "julia.cowing",
-      "mention": ["kevin.mcgrath"],
-      "priority": 0,
-      "keywords": ["test", "debug", "nosubmit", "blah"],
-      "labels": ["Test"]
-    },
-    {
-      "name": "mentions",
-      "epic": "SFDC-695",
-      "assignTo": "alok.pradhan",
-      "mention": ["amy.kleinerman"],
+      "name": "accessibility",
+      "epic": "SFDC-1166",
+      "assignTo": "savvithri.sivaram",
+      "mention": ["jeff.tyson"],
       "priority": 1,
-      "keywords": ["mention", "@mention", "lookup"],
-      "labels": ["Mentions"]
+      "keywords": ["accessibility", "handicap", "keyboard", "screen reader"],
+      "labels": ["Accessibility"]
     },
     {
       "name": "ac_portal",
@@ -31,7 +22,8 @@
       "assignTo": "ademirtjis",
       "mention": ["dana.sheik"],
       "priority": 2,
-      "keywords": ["admin", "compliance", "portal", "audit"],
+      "keywords": ["admin", "compliance", "portal", "audit", "security", "dlp", "data", "loss", "prevention",
+        "warning", "expression filter"],
       "labels": ["AC-Portal"]
     },
     {
@@ -44,102 +36,122 @@
       "labels": ["Blast"]
     },
     {
-      "name": "client_2.0",
+      "name": "chat_actions",
       "epic": "SFDC-695",
       "assignTo": "alok.pradhan",
-      "mention": ["shannon"],
+      "mention": ["diana.bloom"],
       "priority": 4,
-      "keywords": ["next", "prelude"],
+      "keywords": ["forward", "inline reaction", "emoticon", "emoji", "reply", "thread", "bookmark", "save", "star",
+        "favorite", "task", "send to"],
       "labels": ["Prelude"]
     },
     {
       "name": "community",
       "epic": "SFDC-155",
       "assignTo": "savvithri.sivaram",
-      "mention": ["shannon", "leah"],
+      "mention": ["jessica.brooke", "leah"],
       "priority": 5,
       "keywords": ["community", "adoption", "xpod", "cross-pod", "directory"],
       "labels": ["Community"]
     },
     {
-      "name": "modules",
-      "epic": "SFDC-187",
-      "assignTo": "alok.pradhan",
-      "mention": ["diana.bloom"],
+      "name": "compact_ui",
+      "epic": "SFDC-1326",
+      "assignTo": "savvithri.sivaram",
+      "mention": ["jessica.brooke"],
       "priority": 6,
-      "keywords": ["module", "window", "room", "canvas"],
-      "labels": ["Modules"]
+      "keywords": ["compact", "slim", "simplified"],
+      "labels": ["Compact-UI"]
     },
     {
       "name": "email",
-      "epic": "SFDC-694",
+      "epic": "SFDC-1327",
       "assignTo": "shannon",
-      "mention": ["david"],
+      "mention": ["stephen.glaiser"],
       "priority": 7,
-      "keywords": ["email integration"],
-      "labels": ["EmailIntegration"]
+      "keywords": ["email", "outlook", "exchange"],
+      "labels": ["Email-Integration"]
     },
     {
-      "name": "electron",
-      "epic": "",
-      "assignTo": "savvithri.sivaram",
+      "name": "ftue",
+      "epic": "SFDC-1333",
+      "assignTo": "sjason.liu",
       "mention": ["eric.chao"],
       "priority": 8,
-      "keywords": ["electron", "desktop", "wrapper"],
-      "labels": ["Electron"]
-    },
-    {
-      "name": "search",
-      "epic": "SFDC-28",
-      "assignTo": "alok.pradhan",
-      "mention": ["amy.kleinerman"],
-      "priority": 9,
-      "keywords": ["search", "filter", "find", "locate"],
-      "labels": ["Search"]
+      "keywords": ["onboarding", "self", "first time", "ftue", "tour", "guide", "how-to"],
+      "labels": ["FTUE"]
     },
     {
       "name": "help_guide",
       "epic": "SFDC-33",
       "assignTo": "savvithri.sivaram",
-      "mention": [],
-      "priority": 10,
-      "keywords": ["help", "guide", "documentation"],
-      "labels": ["HelpGuide"]
+      "mention": ["eric.chao"],
+      "priority": 9,
+      "keywords": ["help", "documentation"],
+      "labels": ["Help-Guide"]
     },
     {
       "name": "inbox",
       "epic": "SFDC-35",
       "assignTo": "savvithri.sivaram",
       "mention": ["shannon"],
-      "priority": 11,
-      "keywords": ["inbox"],
+      "priority": 10,
+      "keywords": ["inbox", "feed"],
       "labels": ["Inbox"]
+    },
+    {
+      "name": "info_barrier",
+      "epic": "SFDC-1329",
+      "assignTo": "rodrigo.leite",
+      "mention": ["dana.sheik"],
+      "priority": 11,
+      "keywords": ["ib", "barrier", "info", "entitlement", "feature flag"],
+      "labels": ["IB-Entitlements"]
+    },
+    {
+      "name": "language",
+      "epic": "SFDC-388",
+      "assignTo": "savvithri.sivaram",
+      "mention": [],
+      "priority": 12,
+      "keywords": ["words", "text label", "label", "system messaging"],
+      "labels": ["Language"]
     },
     {
       "name": "layout",
       "epic": "SFDC-187",
-      "assignTo": "savvithri.sivaram",
+      "assignTo": "alok.pradhan",
       "mention": ["shannon"],
-      "priority": 12,
-      "keywords": ["pin", "grid", "layout"],
+      "priority": 13,
+      "keywords": ["pin", "grid", "layout", "popout", "module", "window", "room", "canvas"],
       "labels": ["Layout"]
     },
     {
       "name": "left_nav",
       "epic": "SFDC-30",
-      "assignTo": "alok.pradhan",
+      "assignTo": "savvithri.sivaram",
       "mention": ["matt.arnold"],
-      "priority": 13,
-      "keywords": ["nav", "left nav", "navigation", "menu", "folder", "group", "sort"],
+      "priority": 14,
+      "keywords": ["nav", "left nav", "navigation", "menu", "folder", "group", "sort",
+        "contextual create", "alert", "badge"],
       "labels": ["LeftNav"]
+    },
+    {
+      "name": "color_type",
+      "epic": "SFDC-389",
+      "assignTo": "savvithri.sivaram",
+      "mention": ["eric.chao"],
+      "priority": 15,
+      "keywords": ["color", "font", "visual", "look and feel", "look-and-feel"],
+      "labels": ["Color-Type"]
     },
     {
       "name": "meetings",
       "epic": "SFDC-271",
       "assignTo": "devidas",
       "mention": ["shannon"],
-      "priority": 14,
-      "keywords": ["meeting", "webrtc", "rtc", "video", "conference", "audio"],
+      "priority": 16,
+      "keywords": ["meeting", "webrtc", "rtc", "video", "conference", "audio", "voice"],
       "labels": ["WebRTC"]
     },
     {
@@ -147,25 +159,43 @@
       "epic": "SFDC-188",
       "assignTo": "devidas",
       "mention": ["tejay.do"],
-      "priority": 15,
-      "keywords": ["mobile", "ios", "android", "blackberry", "phone", "tablet", "device"],
+      "priority": 17,
+      "keywords": ["mobile", "ios", "android", "blackberry", "phone", "tablet"],
       "labels": ["Mobile"]
+    },
+    {
+      "name": "news",
+      "epic": "SFDC-205",
+      "assignTo": "leah",
+      "mention": ["eric.chao"],
+      "priority": 18,
+      "keywords": ["news", "what's new", "whats new", "protip", "pro tip", "pro-tip"],
+      "labels": ["News"]
+    },
+    {
+      "name": "new_feature",
+      "epic": "SFDC-307",
+      "assignTo": "michael.chou",
+      "mention": [],
+      "priority": 19,
+      "keywords": ["feature", "request"],
+      "labels": ["New-Feature"]
     },
     {
       "name": "notifications",
       "epic": "SFDC-270",
       "assignTo": "devidas",
-      "mention": ["shannon"],
-      "priority": 16,
-      "keywords": ["notification", "toast", "popup", "pop-up", "chime", "notice"],
+      "mention": ["amy.kleinerman"],
+      "priority": 20,
+      "keywords": ["notification", "toast", "chime", "notice"],
       "labels": ["Notifications"]
     },
     {
       "name": "performance",
-      "epic": "SFDC-695",
+      "epic": "SFDC-1328",
       "assignTo": "alok.pradhan",
       "mention": [],
-      "priority": 17,
+      "priority": 21,
       "keywords": ["speed", "performance", "slow", "sluggish", "faster", "lag", "load time"],
       "labels": ["Performance"]
     },
@@ -174,81 +204,90 @@
       "epic": "SFDC-694",
       "assignTo": "vincent",
       "mention": ["jeff.tyson"],
-      "priority": 18,
-      "keywords": ["platform", "api", "agent", "rest", "develop", "partner", "app"],
+      "priority": 22,
+      "keywords": ["platform", "api", "agent", "rest", "develop", "partner", "app", "integration", "bot"],
       "labels": ["Platform"]
     },
     {
       "name": "presence",
-      "epic": "SFDC-695",
+      "epic": "SFDC-31",
       "assignTo": "devidas",
-      "mention": [],
-      "priority": 19,
-      "keywords": ["presence", "online", "away", "badge"],
-      "labels": ["Presence"]
+      "mention": ["jessica.brooke"],
+      "priority": 23,
+      "keywords": ["presence", "online", "away", "profile", "user state", "user account", "profile"],
+      "labels": ["Presence-Profile"]
     },
     {
-      "name": "profile",
-      "epic": "SFDC-31",
-      "assignTo": "jason.liu",
+      "name": "room_details",
+      "epic": "SFDC-926",
+      "assignTo": "savvithri.sivaram",
       "mention": ["jessica.brooke"],
-      "priority": 20,
-      "keywords": ["profile", "wall", "post", "account"],
-      "labels": ["Profile"]
+      "priority": 24,
+      "keywords": ["detail", "information", "i icon", "i-icon", "i_icon", "room setting", "room member"],
+      "labels": ["Room-Details"]
     },
     {
       "name": "rte",
       "epic": "SFDC-925",
       "assignTo": "alok.pradhan",
-      "mention": ["jessica.brooke"],
-      "priority": 21,
-      "keywords": ["edit", "rte", "rich", "chevron", "text", "format"],
+      "mention": ["noah.warren"],
+      "priority": 25,
+      "keywords": ["edit", "rte", "rich", "chevron", "text", "format", "compose", "mode"],
       "labels": ["RTE"]
     },
     {
-      "name": "security",
-      "epic": "",
-      "assignTo": "ademirtjis",
-      "mention": [],
-      "priority": 22,
-      "keywords": ["security", "dlp", "data", "loss", "warning"],
-      "labels": ["Security"]
-    },
-    {
-      "name": "info_barrier",
-      "epic": "",
-      "assignTo": "rodrigo.leite",
-      "mention": ["dana.sheik"],
-      "priority": 23,
-      "keywords": ["ib", "barrier", "entitlement"],
-      "labels": ["InfoBarriers"]
+      "name": "search",
+      "epic": "SFDC-28",
+      "assignTo": "alok.pradhan",
+      "mention": ["amy.kleinerman"],
+      "priority": 26,
+      "keywords": ["search", "filter", "find", "locate"],
+      "labels": ["Search"]
     },
     {
       "name": "files",
-      "epic": "",
+      "epic": "SFDC-1332",
       "assignTo": "alok.pradhan",
-      "mention": ["dana.sheik"],
-      "priority": 24,
+      "mention": ["jeff.tyson"],
+      "priority": 27,
       "keywords": ["file", "attach", "upload", "download"],
-      "labels": ["SendFiles"]
+      "labels": ["Send-Files"]
+    },
+    {
+      "name": "settings",
+      "epic": "SFDC-32",
+      "assignTo": "savvithri.sivaram",
+      "mention": ["jessica.brooke"],
+      "priority": 28,
+      "keywords": ["setting", "customiz", "personaliz"],
+      "labels": ["Settings"]
     },
     {
       "name": "signals",
       "epic": "SFDC-29",
       "assignTo": "alok.pradhan",
-      "mention": ["shannon"],
-      "priority": 25,
-      "keywords": ["signal", "hash", "cash", "follow"],
+      "mention": ["amy.kleinerman"],
+      "priority": 29,
+      "keywords": ["signal", "hash", "cash", "follow", "tag", "mention", "@mention", "lookup"],
       "labels": ["Signals"]
     },
     {
       "name": "usability",
-      "epic": "SFDC-389",
-      "assignTo": "savvithri.sivaram",
-      "mention": ["eric.chao", "julia.cowing"],
-      "priority": 26,
-      "keywords": ["color", "font", "visibi", "background", "theme"],
-      "labels": ["UIUsability"]
+      "epic": "SFDC-185",
+      "assignTo": "julia.cowing",
+      "mention": [],
+      "priority": 30,
+      "keywords": ["navigation", "ease of use", "not intuitive", "difficult", "cannot find"],
+      "labels": ["Usability"]
+    },
+    {
+      "name": "wall_post",
+      "epic": "SFDC-1330",
+      "assignTo": "ademirtjis",
+      "mention": ["noah.warren"],
+      "priority": 31,
+      "keywords": ["wall post", "wallpost", "memo"],
+      "labels": ["Signals"]
     }
   ]
 }

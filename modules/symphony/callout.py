@@ -1,3 +1,5 @@
+from datetime import datetime
+from datetime import timedelta
 import json
 import requests
 from requests_toolbelt import MultipartEncoder
@@ -13,13 +15,18 @@ agentSession.cert = config.BotCertificate
 agentV2Session = requests.Session()
 agentV2Session.cert = config.BotCertificate
 
+v2LastAuth: datetime = None
+v2SessionToken = None
+v2KeyAuthToken = None
+
 
 def GetSessionToken():
-    botlog.LogConsoleInfo(config.SessionAuthEP)
+    botlog.LogConsoleInfo('Getting Session Token...')
     return GetSymphonyAuthToken(config.SessionAuthEP)
 
 
 def GetKeyManagerToken():
+    botlog.LogConsoleInfo('Getting Key Manager Token...')
     return GetSymphonyAuthToken(config.KeyManagerEP)
 
 
@@ -125,14 +132,17 @@ def SymphonyREST(method, endpoint, body):
 
 
 def PostV2(endpoint, body):
+    global v2LastAuth
+    global v2SessionToken
+    global v2KeyAuthToken
+    global agentV2Session
+
+    if v2SessionToken is None or v2LastAuth is None or datetime.now() > v2LastAuth + timedelta(days=2):
+        v2SessionToken = GetSessionToken()
+        v2KeyAuthToken = GetKeyManagerToken()
+        v2LastAuth = datetime.now()
+
     encoder = MultipartEncoder(fields=body)
-
-    v2SessionToken = GetSessionToken()
-    v2KeyAuthToken = GetKeyManagerToken()
-
-    # v2Headers = {"sessionToken": v2SessionToken, "keyManagerToken": v2KeyAuthToken,
-    #              "Content-Type": encoder.content_type}
-
     v2Headers = BuildHeaders(v2SessionToken, v2KeyAuthToken, encoder.content_type)
 
     agentV2Session.headers.update(v2Headers)

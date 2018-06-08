@@ -41,10 +41,19 @@ def MatchEpic(bodytext: str):
 
     for epic_key in EpicList:
         epic = EpicList.get(epic_key)
+
         for keyword in epic['keywords']:
-            if keyword in freq_dict:
-                count = epic_match.get(epic['name'], 0)
-                epic_match[epic['name']] = count + freq_dict[keyword]
+            count = epic_match.get(epic['name'], 0)
+
+            kw_match_count = 0
+            if " " in keyword:
+                kw_match_count = searchtext.count(keyword)
+            elif keyword in freq_dict:
+                kw_match_count = freq_dict[keyword]
+
+            epic_match[epic['name']] = count + kw_match_count
+
+            # log.LogConsoleInfo('Epic: ' + epic_key + ' | KW: ' + keyword + ' | KW Count: ' + str(kw_match_count))
 
     # returns the epic name with the largest match count
     # If there are multiples with the same max count, returns the first one

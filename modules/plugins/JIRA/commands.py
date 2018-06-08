@@ -7,6 +7,13 @@ import modules.symphony.user as user
 import modules.botlog as log
 
 
+def GetFeedbackSettings(messageDetail):
+    from modules.symphony.messaging import FormatDicttoMML2 as json_format
+    json_str = json_format(fbmatch.EpicList)
+
+    messageDetail.ReplyToSenderv2(json_str)
+
+
 def SubmitFeedbackJIRAv2(messageDetail):
     try:
         issueFieldsDict = {}

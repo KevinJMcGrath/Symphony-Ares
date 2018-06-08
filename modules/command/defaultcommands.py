@@ -136,6 +136,12 @@ def SubmitUserFeedback(messageDetail):
     sfdc.SubmitUserFeedback(messageDetail)
 
 
+def SubmitUserFeedbackv2(messageDetail):
+    import modules.plugins.JIRA.commands as jira
+
+    jira.SubmitFeedbackJIRAv2(messageDetail)
+
+
 def ReparseRoomFeedback(messageDetail):
 
     streamId = messageDetail.StreamId
